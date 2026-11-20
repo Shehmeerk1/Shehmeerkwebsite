@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Heart } from "lucide-react";
 import { DemoBanner } from "@/components/listings/demo-banner";
 import { SavedCount } from "@/components/listings/favorite-button";
+import { FiltersToggle } from "@/components/listings/filters-toggle";
 import { ListingCard } from "@/components/listings/listing-card";
 import { SearchForm } from "@/components/listings/search-form";
 import { CloseCta } from "@/components/site/close-cta";
@@ -42,7 +43,7 @@ export default async function HomesPage({ searchParams }: { searchParams: Promis
 
   return (
     <>
-      <section data-theme="chalk" className="pt-28">
+      <section data-theme="chalk" className="pt-24 md:pt-28">
         <div className="wrap">
           <div className="flex flex-wrap items-end justify-between gap-6">
             <h1 className="t-card !text-[clamp(3.6rem,11vw,12rem)]">
@@ -55,8 +56,10 @@ export default async function HomesPage({ searchParams }: { searchParams: Promis
               Saved homes <SavedCount />
             </Link>
           </div>
-          <div data-theme="basalt" className="mt-8 rounded-[1.5rem] p-[clamp(1.25rem,2.5vw,2rem)]">
-            <SearchForm key={JSON.stringify(values)} values={values} />
+          <div data-theme="basalt" className="mt-8 rounded-[1.5rem] p-[clamp(1rem,2.5vw,2rem)]">
+            <FiltersToggle active={[values.min, values.max, values.beds, values.baths, values.type].filter(Boolean).length}>
+              <SearchForm key={JSON.stringify(values)} values={values} />
+            </FiltersToggle>
           </div>
           {isDemo ? <DemoBanner className="mt-4" /> : null}
         </div>
@@ -102,7 +105,16 @@ export default async function HomesPage({ searchParams }: { searchParams: Promis
         </div>
       </section>
 
-      <CloseCta title="Looking for something specific?" />
+      <CloseCta
+        title="Looking for something specific?"
+        lede="Tell me what you need and I will search for you, including homes that never reach the portals."
+        primary={{ href: "/contact?topic=buy-sell", label: "Describe what you need" }}
+        routes={[
+          { href: "/real-estate#valuation", label: "Selling first? Get a valuation" },
+          { href: "/resources#arizona-homebuyer-guide", label: "The Arizona homebuyer guide" },
+          { href: "/real-estate#communities", label: "Featured communities" },
+        ]}
+      />
     </>
   );
 }

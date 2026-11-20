@@ -4,7 +4,7 @@ import { ArrowUpRight } from "lucide-react";
 import { TimelineLine } from "@/components/about/timeline-line";
 import { CloseCta } from "@/components/site/close-cta";
 import { DraftNote } from "@/components/site/draft-note";
-import { Photo, PortraitSlot } from "@/components/site/photo";
+import { Photo, PhotoNote } from "@/components/site/photo";
 import type { PhotoKey } from "@/lib/photos";
 import { cn } from "@/lib/utils";
 
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/about" },
 };
 
-const chapters: { id: string; title: string; body: string; prompt: string; href: string; link: string; photo?: PhotoKey; shot?: string }[] = [
+const chapters: { id: string; title: string; body: string; prompt: string; href: string; link: string; photo: PhotoKey; shot?: string }[] = [
   {
     id: "entrepreneurship",
     title: "Entrepreneurship",
@@ -23,6 +23,7 @@ const chapters: { id: string; title: string; body: string; prompt: string; href:
     href: "/marketing",
     link: "Marketing and business",
     shot: "Shehmeer, early days",
+    photo: "saguaroDay",
   },
   {
     id: "marketing",
@@ -32,6 +33,7 @@ const chapters: { id: string; title: string; body: string; prompt: string; href:
     href: "/marketing",
     link: "See the marketing work",
     shot: "Shehmeer with a team",
+    photo: "valleyDusk",
   },
   {
     id: "real-estate",
@@ -67,13 +69,14 @@ export default function AboutPage() {
           <h1 className="t-card relative z-10 !text-[clamp(4.2rem,17vw,19rem)]">
             <span className="line-mask" style={{ "--i": 0 } as React.CSSProperties}>
               <span>Shehmeer</span>
-            </span>
+            </span>{" "}
             <span className="line-mask text-right" style={{ "--i": 1 } as React.CSSProperties}>
               <span>Kanwar</span>
             </span>
           </h1>
-          <div className="fade-late relative z-0 mx-auto mt-6 w-[min(78vw,26rem)] sm:-mt-[clamp(6rem,11vw,12rem)]" style={{ "--i": 3 } as React.CSSProperties}>
-            <PortraitSlot shot="Portrait of Shehmeer" direction="The lead portrait. Head and shoulders, eyes to camera, warm natural light, a plain wall." tone="light" className="aspect-[3/4] rounded-[1.5rem] shadow-[0_40px_80px_-40px_rgba(26,18,16,0.55)]" />
+          <div className="fade-late relative z-0 mt-8" style={{ "--i": 3 } as React.CSSProperties}>
+            <Photo name="camelbackWide" priority grain className="aspect-[4/3] rounded-[1.5rem] sm:aspect-[21/9]" sizes="100vw" />
+            <PhotoNote onPhoto shot="Portrait of Shehmeer" direction="The lead portrait. Head and shoulders, warm natural light." className="absolute bottom-4 right-4 hidden sm:flex" />
           </div>
           <div className="grid-12 mt-12 gap-y-6">
             <p className="t-voice col-span-12 lg:col-span-6 lg:col-start-4">
@@ -102,7 +105,8 @@ export default function AboutPage() {
                   </Link>
                 </div>
                 <div className={cn(i % 2 ? "md:order-1 md:pr-10" : "md:pl-10")}>
-                  {c.photo ? <Photo name={c.photo} className="aspect-[4/3] rounded-[1.25rem]" sizes="(min-width: 768px) 40vw, 100vw" /> : <PortraitSlot shot={c.shot ?? c.title} tone="light" className="aspect-[4/3] rounded-[1.25rem]" />}
+                  <Photo name={c.photo} className="aspect-[4/3] rounded-[1.25rem]" sizes="(min-width: 768px) 40vw, 100vw" />
+                  {c.shot ? <PhotoNote shot={c.shot} className="mt-4" /> : null}
                 </div>
               </article>
             ))}
@@ -116,34 +120,26 @@ export default function AboutPage() {
             <h2 id="offclock-title" className="t-xl col-span-12 lg:col-span-7">
               Off the clock
             </h2>
-            <p className="t-body col-span-12 max-w-md text-muted lg:col-span-4 lg:col-start-9">The person behind the work. Three frames reserved for real photographs, each with its brief.</p>
+            <p className="t-body col-span-12 max-w-md text-muted lg:col-span-4 lg:col-start-9">The person behind the work. These three photographs are next on the shot list.</p>
           </div>
-          <ul className="mt-12 grid gap-5 md:grid-cols-3">
-            {offClock.map((o, i) => (
-              <li key={o.shot} className={cn(i === 1 && "md:translate-y-16")}>
-                <PortraitSlot shot={o.shot} direction={o.direction} className="aspect-[4/5] rounded-[1.25rem]" />
+          <ul className="mt-10 grid gap-3 md:grid-cols-3">
+            {offClock.map((o) => (
+              <li key={o.shot}>
+                <PhotoNote shot={o.shot} direction={o.direction} className="h-full max-w-none" />
               </li>
             ))}
           </ul>
         </div>
       </section>
 
-      <section data-theme="dawn" aria-labelledby="milestones-title" className="pb-[clamp(4.5rem,9vw,8rem)] pt-[clamp(6rem,12vw,11rem)]">
+      <section data-theme="dawn" aria-labelledby="milestones-title" className="py-[clamp(4.5rem,9vw,8rem)]">
         <div className="wrap grid-12 gap-y-10">
           <h2 id="milestones-title" className="t-xl col-span-12 lg:col-span-5">
             Milestones
           </h2>
           <div className="col-span-12 lg:col-span-6 lg:col-start-7">
-            <p className="t-m">A dated list of what has actually happened: businesses started, licences earned, notable sales, things worth being proud of.</p>
-            <ul className="mt-8 border-t border-line" aria-label="Milestones, to be added">
-              {[0, 1, 2].map((n) => (
-                <li key={n} className="grid grid-cols-[5rem_1fr] gap-4 border-b border-line py-5 text-muted">
-                  <span className="t-label">Year</span>
-                  <span className="font-serif text-xl italic">Milestone to be added</span>
-                </li>
-              ))}
-            </ul>
-            <DraftNote className="mt-6 text-muted">Nothing is listed until it is real. Credentials, awards and testimonials are added only with your confirmation.</DraftNote>
+            <p className="t-m">Businesses started, licences earned, sales worth remembering. Dated, and only what actually happened.</p>
+            <DraftNote className="mt-6 text-muted">Send the dates and this becomes a timeline. Credentials, awards and testimonials are added only with your confirmation.</DraftNote>
           </div>
         </div>
       </section>

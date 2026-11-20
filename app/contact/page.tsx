@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 export default async function ContactPage({ searchParams }: { searchParams: Promise<{ topic?: string | string[] }> }) {
   const raw = (await searchParams).topic;
   const asked = Array.isArray(raw) ? raw[0] : raw;
-  const initial: Topic = TOPICS.find((t) => t.topic === asked)?.topic ?? "buy-sell";
+  const initial: Topic = TOPICS.find((t) => t.topic === asked)?.topic ?? "valuation";
   const { email, phone } = site.contact;
 
   return (

@@ -36,15 +36,15 @@ function Motif({ kind }: { kind: "sun" | "house" | "grid" | "arrow" }) {
 export function ResourceCover({ resource, className }: { resource: Resource; className?: string }) {
   const look = LOOK[resource.slug] ?? { theme: "basalt", motif: "sun" as const };
   return (
-    <div data-theme={look.theme} className={cn("relative flex aspect-[3/4] flex-col justify-between overflow-hidden rounded-[0.5rem] p-[8%] shadow-[0_24px_40px_-24px_rgba(0,0,0,0.55)] [container-type:inline-size]", className)}>
+    <div data-theme={look.theme} className={cn("relative flex aspect-[3/4] flex-col justify-between overflow-hidden rounded-[0.5rem] p-[8%] shadow-[0_24px_40px_-24px_rgba(0,0,0,0.55)] @container", className)}>
       <div aria-hidden className="absolute inset-y-0 left-0 w-[6%] bg-black/15" />
-      <p className="relative text-[clamp(7px,5.6cqw,13px)] font-medium leading-tight text-muted">
+      <p className="relative hidden text-[0.75rem] font-medium leading-tight text-muted @[11rem]:block">
         {resource.kind}, {resource.topic.toLowerCase()}
       </p>
       <Motif kind={look.motif} />
       <div className="relative">
         <p className="font-sans text-[11cqw] font-extrabold uppercase leading-[0.9] [font-variation-settings:'wdth'_66]">{resource.title.replace(/^The /, "")}</p>
-        <p className="mt-[5cqw] text-[clamp(7px,5.6cqw,13px)] font-medium text-muted">Shehmeer Kanwar</p>
+        <p className="mt-[5cqw] hidden text-[0.75rem] font-medium text-muted @[11rem]:block">Shehmeer Kanwar</p>
       </div>
     </div>
   );

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useId, useRef, useState } from "react";
+import { useId, useRef, useState, useSyncExternalStore } from "react";
 import { ArrowRight, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -80,6 +80,30 @@ const SUBMIT: Record<LeadKind, string> = {
   resource: "Get the download",
 };
 
+/**
+ * Name, email and phone typed into any form on the page. Switching the contact
+ * topic or a listing's tab remounts the form; this keeps what was typed.
+ * Memory only: nothing is written to storage.
+ */
+const identity: Record<"name" | "email" | "phone", string> = { name: "", email: "", phone: "" };
+const isIdentity = (n: string): n is keyof typeof identity => n === "name" || n === "email" || n === "phone";
+
+const noSubscribe = () => () => {};
+const localDate = () => {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+};
+
+/** A sensible next step after each kind of request. */
+const NEXT: Partial<Record<LeadKind, { href: string; label: string }>> = {
+  valuation: { href: "/resources#seller-preparation-checklist", label: "While you wait: the seller preparation checklist" },
+  "buy-sell": { href: "/resources#arizona-homebuyer-guide", label: "While you wait: the Arizona homebuyer guide" },
+  "showing-request": { href: "/homes", label: "Keep browsing homes" },
+  "property-inquiry": { href: "/homes", label: "Keep browsing homes" },
+  investor: { href: "/journal/reading-an-investment-summary", label: "Read: how I read an investment summary" },
+  marketing: { href: "/journal/category/marketing", label: "Read the marketing articles" },
+};
+
 const SENT: Record<LeadKind, { title: string; body: string }> = {
   "buy-sell": { title: "Request sent.", body: "Shehmeer will reply personally to the email you gave." },
   valuation: { title: "Valuation request sent.", body: "Shehmeer will review the property and reply to the email you gave." },
@@ -101,6 +125,8 @@ export function LeadForm({ kind, hidden, className, idPrefix }: { kind: LeadKind
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [status, setStatus] = useState<Status>({ state: "idle" });
   const fields = FIELDS[kind];
+  // Undefined on the server, the visitor's local date in the browser; blocks past dates.
+  const today = useSyncExternalStore(noSubscribe, localDate, () => undefined);
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -134,6 +160,8 @@ export function LeadForm({ kind, hidden, className, idPrefix }: { kind: LeadKind
     if (!parsed.success) for (const issue of parsed.error.issues) found[String(issue.path[0])] ??= issue.message;
     else Object.assign(found, validateExtras(parsed.data));
     for (const f of fields) if (f.required && CORE.has(f.name) && !String(data.get(f.name) ?? "").trim()) found[f.name] ??= "This field is required.";
+    const date = String(data.get("preferredDate") ?? "");
+    if (date && today && date < today) found.preferredDate ??= "Choose today or a later date.";
 
     setErrors(found);
     const firstBad = Object.keys(found)[0];
@@ -166,6 +194,12 @@ export function LeadForm({ kind, hidden, className, idPrefix }: { kind: LeadKind
           <span className="t-m">{sent.title}</span>
         </p>
         <p className="t-body mt-3 max-w-md text-muted">{sent.body}</p>
+        {NEXT[kind] ? (
+          <Link href={NEXT[kind]!.href} className="t-label mt-5 inline-flex min-h-11 items-center gap-2">
+            <span className="link-draw">{NEXT[kind]!.label}</span>
+            <ArrowRight className="size-4" aria-hidden />
+          </Link>
+        ) : null}
         {kind === "resource" ? (
           status.download ? (
             <Button asChild className="mt-6">
@@ -186,6 +220,9 @@ export function LeadForm({ kind, hidden, className, idPrefix }: { kind: LeadKind
 
   return (
     <form ref={formRef} onSubmit={onSubmit} noValidate className={cn("grid grid-cols-1 gap-x-8 gap-y-7 sm:grid-cols-2", className)}>
+      <p className="text-[0.875rem] text-muted sm:col-span-2" aria-hidden>
+        Fields marked <span className="text-fg">*</span> are required.
+      </p>
       {fields.map((f) => {
         const id = `${pid}-${f.name}`;
         const half = "half" in f && f.half;
@@ -193,7 +230,10 @@ export function LeadForm({ kind, hidden, className, idPrefix }: { kind: LeadKind
           <div key={f.name} className={cn(!half && "sm:col-span-2")}>
             {f.type === "checks" ? (
               <fieldset>
-                <legend className="t-label text-muted">{f.label}</legend>
+                <legend className="t-label text-muted">
+                  {f.label}
+                  {f.required ? <span aria-hidden className="text-fg"> *</span> : null}
+                </legend>
                 <div className="mt-3 flex flex-wrap gap-x-7 gap-y-1">
                   {f.options.map((o, i) => (
                     <label key={o} className="flex min-h-11 cursor-pointer items-center gap-3 text-[1.0625rem]">
@@ -207,6 +247,7 @@ export function LeadForm({ kind, hidden, className, idPrefix }: { kind: LeadKind
               <>
                 <label htmlFor={id} className="t-label block text-muted">
                   {f.label}
+                  {f.required ? <span aria-hidden className="text-fg"> *</span> : null}
                 </label>
                 {f.type === "textarea" ? (
                   <Textarea id={id} name={f.name} required={f.required} {...aria(f.name)} />
@@ -220,7 +261,20 @@ export function LeadForm({ kind, hidden, className, idPrefix }: { kind: LeadKind
                     ))}
                   </Select>
                 ) : (
-                  <Input id={id} name={f.name} type={f.type} required={f.required} autoComplete={f.autoComplete ?? "off"} spellCheck={f.type === "email" ? false : undefined} inputMode={f.type === "tel" ? "tel" : undefined} {...aria(f.name)} />
+                  <Input
+                    id={id}
+                    name={f.name}
+                    type={f.type}
+                    required={f.required}
+                    autoComplete={f.autoComplete ?? "off"}
+                    spellCheck={f.type === "email" ? false : undefined}
+                    inputMode={f.type === "tel" ? "tel" : undefined}
+                    min={f.type === "date" ? today : undefined}
+                    defaultValue={isIdentity(f.name) ? identity[f.name] : undefined}
+                    onChange={isIdentity(f.name) ? (e) => (identity[f.name as keyof typeof identity] = e.currentTarget.value) : undefined}
+                    className={f.type === "date" ? "[color-scheme:light] [[data-theme=basalt]_&]:[color-scheme:dark] [[data-theme=night]_&]:[color-scheme:dark]" : undefined}
+                    {...aria(f.name)}
+                  />
                 )}
               </>
             )}

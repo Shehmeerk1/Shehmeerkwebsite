@@ -40,10 +40,10 @@ export default function InvestPage() {
           <h1 className="t-card max-w-[11ch] !text-[clamp(3.6rem,11.5vw,13rem)]">
             <span className="line-mask" style={{ "--i": 0 } as React.CSSProperties}>
               <span>Capital,</span>
-            </span>
+            </span>{" "}
             <span className="line-mask" style={{ "--i": 1 } as React.CSSProperties}>
               <span>placed with</span>
-            </span>
+            </span>{" "}
             <span className="line-mask" style={{ "--i": 2 } as React.CSSProperties}>
               <span className="text-accent">patience.</span>
             </span>

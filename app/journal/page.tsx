@@ -13,7 +13,16 @@ export default async function JournalPage() {
   return (
     <>
       <JournalIndex posts={await getPosts()} active={null} />
-      <CloseCta />
+      <CloseCta
+        title="Take the guide with you"
+        lede="Short, plain documents for the decisions people ask me about most. Leave your name and email and the download opens straight away."
+        primary={{ href: "/resources", label: "Browse the free guides" }}
+        routes={[
+          { href: "/real-estate#valuation", label: "What is my home worth?" },
+          { href: "/homes", label: "Explore homes" },
+          { href: "/invest", label: "Invest with me" },
+        ]}
+      />
     </>
   );
 }

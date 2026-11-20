@@ -59,7 +59,7 @@ export default async function PostPage({ params }: Props) {
               <ArrowLeft className="size-4" aria-hidden />
               <span className="link-draw">{post.category}</span>
             </Link>
-            <h1 className="t-xl mt-6 max-w-[18ch]">
+            <h1 className="t-l mt-6 max-w-[22ch]">
               <span className="line-mask">
                 <span>{post.title}</span>
               </span>
@@ -81,7 +81,7 @@ export default async function PostPage({ params }: Props) {
 
         <div data-theme="chalk" className={post.cover ? "pt-24" : "pt-10"}>
           <div className="wrap grid-12 pb-[clamp(3rem,6vw,6rem)]">
-            <div className="prose-journal col-span-12 max-w-[66ch] lg:col-span-7 lg:col-start-4">
+            <div className="prose-journal col-span-12 max-w-[31em] lg:col-span-7 lg:col-start-4">
               <MDXRemote source={post.body} components={mdxComponents} />
             </div>
           </div>

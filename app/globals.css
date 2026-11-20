@@ -40,13 +40,13 @@
 /* ---- The hours ---------------------------------------------------------- */
 :root,
 [data-theme="chalk"] {
-  --bg: #f3f1ec;
-  --fg: #12100e;
-  --muted: #5f5850;
-  --line: rgb(18 16 14 / 0.14);
+  --bg: #f1f4f5;
+  --fg: #101315;
+  --muted: #4f585e;
+  --line: rgb(16 19 21 / 0.14);
   --accent: #2537ee;
   --accent-fg: #ffffff;
-  --surface: #e7e3dc;
+  --surface: #e1e7ea;
   --error: #b42318;
 }
 [data-theme="basalt"] {
@@ -92,7 +92,7 @@
 [data-theme="dawn"] {
   --bg: #f0d6c8;
   --fg: #1a1210;
-  --muted: #684f46;
+  --muted: #5c372b;
   --line: rgb(26 18 16 / 0.16);
   --accent: #a8321c;
   --accent-fg: #ffffff;
@@ -112,6 +112,10 @@
 [data-theme] {
   background-color: var(--bg);
   color: var(--fg);
+}
+[data-theme="basalt"],
+[data-theme="night"] {
+  color-scheme: dark;
 }
 
 @layer base {
@@ -146,7 +150,9 @@
   h1, h2, h3, h4 {
     text-wrap: balance;
   }
-  p {
+  p,
+  li,
+  dd {
     text-wrap: pretty;
   }
   a {
@@ -217,8 +223,8 @@
     font-family: var(--font-sans);
     font-variation-settings: "wdth" 88;
     font-weight: 600;
-    font-size: clamp(1.45rem, 2.2vw, 2.15rem);
-    line-height: 1.1;
+    font-size: clamp(1.4rem, 2.1vw, 2.05rem);
+    line-height: 1.3;
     letter-spacing: -0.02em;
   }
   .t-s {
@@ -226,7 +232,7 @@
     font-variation-settings: "wdth" 92;
     font-weight: 600;
     font-size: clamp(1.125rem, 1.35vw, 1.3rem);
-    line-height: 1.2;
+    line-height: 1.3;
     letter-spacing: -0.01em;
   }
   /* Shehmeer's own voice: the only serif on the page outside articles. */
@@ -234,8 +240,8 @@
     font-family: var(--font-serif);
     font-style: italic;
     font-weight: 350;
-    font-size: clamp(1.45rem, 2.5vw, 2.6rem);
-    line-height: 1.18;
+    font-size: clamp(1.4rem, 2.4vw, 2.4rem);
+    line-height: 1.3;
     letter-spacing: -0.015em;
   }
   .t-body {

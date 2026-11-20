@@ -2,7 +2,7 @@
 export type Hour = "chalk" | "basalt" | "cobalt" | "bloom" | "night" | "dawn" | "ember";
 
 export const HOUR_BG: Record<Hour, string> = {
-  chalk: "#f3f1ec",
+  chalk: "#f1f4f5",
   basalt: "#0f0e0c",
   cobalt: "#2537ee",
   bloom: "#f2d33b",

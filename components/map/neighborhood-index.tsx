@@ -55,7 +55,7 @@ export function NeighborhoodIndex() {
               onClick={() => setActive(i)}
               className="group flex w-full items-baseline justify-between gap-6 py-2.5 text-left"
             >
-              <span className={cn("t-l transition-[color,transform] duration-500 ease-[var(--ease-out-expo)]", i === active ? "translate-x-2 text-accent" : "text-fg/45 group-hover:text-fg")}>{n.name}</span>
+              <span className={cn("t-l transition-[color,transform] duration-500 ease-[var(--ease-out-expo)]", i === active ? "translate-x-2 text-accent" : "text-fg/65 group-hover:text-fg")}>{n.name}</span>
               <span className={cn("t-label hidden text-muted transition-opacity sm:inline", i === active ? "opacity-100" : "opacity-0")}>{n.city}</span>
             </button>
           </li>

@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
 import { ArrowRight } from "lucide-react";
-import { PortraitSlot } from "@/components/site/photo";
+import { PhotoNote } from "@/components/site/photo";
 import { Button } from "@/components/ui/button";
 import { photos } from "@/lib/photos";
 import { formatClock, phoenixMinuteNow, sunDay } from "@/lib/sun";
@@ -80,6 +80,10 @@ export function HeroCinema() {
                 <Link href="/invest">Invest with me</Link>
               </Button>
             </div>
+            <Link href="/real-estate#valuation" className="t-label mt-5 hidden min-h-11 items-center gap-2 text-fg md:inline-flex">
+              <span className="link-draw">Selling? Find out what your home is worth</span>
+              <ArrowRight className="size-4" aria-hidden />
+            </Link>
           </div>
           <p className="fade-late t-label t-num hidden min-w-[13rem] text-right text-fg/85 sm:block" style={{ "--i": 7 } as React.CSSProperties} aria-live="off">
             {readout ? (
@@ -97,15 +101,15 @@ export function HeroCinema() {
           <motion.h1 id="hero-name" style={reduce ? undefined : { y: nameY }} className="t-card">
             <span className="line-mask" style={{ "--i": 2 } as React.CSSProperties}>
               <span>Shehmeer</span>
-            </span>
+            </span>{" "}
             <span className="line-mask" style={{ "--i": 3 } as React.CSSProperties}>
               <span>
                 Kanwar<span className="text-accent">.</span>
               </span>
             </span>
           </motion.h1>
-          <div className="fade-late w-[min(44vw,13rem)] flex-none self-end md:w-[clamp(11rem,19vw,20rem)]" style={{ "--i": 5 } as React.CSSProperties}>
-            <PortraitSlot shot="Shehmeer, golden hour" direction="Waist-up, facing the light, desert behind. Warm, direct, no studio." className="aspect-[3/4] rounded-[1rem] ring-1 ring-white/15" />
+          <div className="fade-late hidden flex-none self-end md:block" style={{ "--i": 5 } as React.CSSProperties}>
+            <PhotoNote onPhoto shot="Shehmeer, golden hour" direction="Waist-up, facing the light, desert behind." />
           </div>
         </div>
 
@@ -118,6 +122,9 @@ export function HeroCinema() {
           <Button asChild variant="outline" size="lg">
             <Link href="/invest">Invest with me</Link>
           </Button>
+          <Link href="/real-estate#valuation" className="t-label inline-flex min-h-11 items-center justify-center gap-2">
+            <span className="link-draw">Selling? Get a home valuation</span>
+          </Link>
         </div>
       </div>
     </section>

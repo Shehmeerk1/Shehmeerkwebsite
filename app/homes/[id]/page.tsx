@@ -91,7 +91,7 @@ export default async function ListingPage({ params }: Props) {
             {listing.attribution ? <p className="mt-8 text-[0.875rem] text-muted">{listing.attribution}</p> : null}
           </div>
 
-          <aside aria-label="Contact about this home" className="col-span-12 lg:col-span-4 lg:col-start-9">
+          <aside id="inquire" aria-label="Contact about this home" className="col-span-12 scroll-mt-24 lg:col-span-4 lg:col-start-9">
             <div data-theme="basalt" className="rounded-[1.5rem] p-6 lg:sticky lg:top-24">
               <h2 className="t-m">See it, or ask about it</h2>
               <p className="t-body mt-2 text-muted">Your request comes straight to me.</p>
@@ -103,7 +103,15 @@ export default async function ListingPage({ params }: Props) {
         </div>
       </section>
 
-      <section data-theme="dawn" aria-labelledby="related-title" className="py-[clamp(4rem,8vw,7rem)]">
+      {/* Phones: the request is always one tap away. */}
+      <div data-theme="basalt" className="!bg-transparent pointer-events-none fixed inset-x-0 bottom-0 z-40 p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] md:hidden">
+        <a href="#inquire" className="t-label pointer-events-auto flex min-h-14 items-center justify-between rounded-full bg-[#0f0e0c]/90 pl-5 pr-2 text-[#f3f0ea] shadow-[0_12px_30px_-12px_rgba(0,0,0,0.6)] backdrop-blur-md">
+          <span className="t-num">{formatPrice(listing.price)}</span>
+          <span className="rounded-full bg-accent px-5 py-3 text-accent-fg">Request a showing</span>
+        </a>
+      </div>
+
+      <section data-theme="dawn" aria-labelledby="related-title" className="pb-[clamp(6rem,8vw,7rem)] pt-[clamp(4rem,8vw,7rem)]">
         <div className="wrap">
           <h2 id="related-title" className="t-xl">More nearby</h2>
           <ul className="mt-10 grid grid-cols-1 gap-x-6 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">

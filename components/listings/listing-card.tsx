@@ -44,15 +44,21 @@ export function ListingCard({ listing, aspect = "aspect-[4/5]", sizes = "(min-wi
           )}
           <div aria-hidden className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/45 to-transparent" />
           <SampleFlags listing={listing} className="absolute left-3 top-3" />
-          <p className="t-num absolute bottom-3 left-4 text-[1.375rem] font-semibold tracking-[-0.02em] text-white [font-variation-settings:'wdth'_80]">{formatPrice(listing.price)}</p>
+          <p className="t-num absolute bottom-3 left-3 rounded-full bg-[#0f0e0c]/80 px-3.5 py-1 text-[1.25rem] font-semibold tracking-[-0.02em] text-white backdrop-blur-sm [font-variation-settings:'wdth'_80]">{formatPrice(listing.price)}</p>
         </div>
         <div className="mt-3.5 flex items-baseline justify-between gap-4">
           <h3 className="t-s">
             <span className="link-draw">{listing.community}</span>
+            <span className="sr-only">, {listing.title}</span>
           </h3>
           <p className="t-label text-muted">{listing.type}</p>
         </div>
-        <ListingFacts listing={listing} className="mt-1" />
+        <div className="mt-1 flex items-baseline justify-between gap-4">
+          <ListingFacts listing={listing} />
+          <p aria-hidden className="t-label text-muted">
+            {listing.title.replace("Sample residence", "Sample")}
+          </p>
+        </div>
       </Link>
       <FavoriteButton id={listing.id} title={`${listing.title} in ${listing.community}`} className="absolute right-3 top-3" />
     </article>

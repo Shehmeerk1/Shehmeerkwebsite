@@ -70,10 +70,10 @@ export function Doors() {
       <div className={cn(pinned && "sticky top-0 h-[100svh] overflow-clip")}>
         <motion.div style={pinned ? { x } : undefined} className={cn("flex", pinned ? "h-full w-[300vw]" : "flex-col")}>
           {/* Homes */}
-          <div data-theme="chalk" onFocusCapture={() => focusPanel(0)} className={cn("relative flex", pinned ? "h-full w-screen items-center" : "py-20")}>
+          <div data-theme="chalk" onFocusCapture={() => focusPanel(0)} className={cn("relative flex", pinned ? "h-full w-screen items-center" : "py-14 md:py-20")}>
             <div className="wrap grid-12 items-center gap-y-10">
               <div className="col-span-12 lg:col-span-5">
-                <h3 className="t-card !text-[clamp(4.5rem,14vw,15rem)]">Homes</h3>
+                <h3 className="t-card !text-[clamp(3.5rem,12vw,13rem)]">Homes</h3>
                 <p className="t-m mt-6 max-w-[24ch]">Find the right one. Sell yours for what it is actually worth.</p>
                 <div className="mt-8 flex flex-wrap gap-3">
                   <Button asChild size="lg">
@@ -93,15 +93,15 @@ export function Doors() {
             </div>
           </div>
 
-          {/* Capital */}
-          <div data-theme="night" onFocusCapture={() => focusPanel(1)} className={cn("relative flex", pinned ? "h-full w-screen items-center" : "py-20")}>
+          {/* Investing */}
+          <div data-theme="night" onFocusCapture={() => focusPanel(1)} className={cn("relative flex", pinned ? "h-full w-screen items-center" : "py-14 md:py-20")}>
             <div className="wrap grid-12 items-center gap-y-10">
               <div className="order-2 col-span-12 lg:order-1 lg:col-span-6">
                 <Plat progress={pinned ? p2 : scrollYProgress} />
               </div>
               <div className="order-1 col-span-12 lg:order-2 lg:col-span-5 lg:col-start-8">
-                <h3 className="t-card !text-[clamp(4.5rem,14vw,15rem)]">Capital</h3>
-                <p className="t-m mt-6 max-w-[24ch]">Residential, multifamily and development, chosen with patience.</p>
+                <h3 className="t-card !text-[clamp(3.5rem,9.5vw,10.5rem)]">Investing</h3>
+                <p className="t-m mt-6 max-w-[24ch]">Residential, multifamily and development property, chosen with patience.</p>
                 <Button asChild variant="accent" size="lg" className="mt-8">
                   <Link href="/invest">
                     Invest with me <ArrowRight aria-hidden />
@@ -111,11 +111,11 @@ export function Doors() {
             </div>
           </div>
 
-          {/* Growth */}
-          <div data-theme="cobalt" onFocusCapture={() => focusPanel(2)} className={cn("relative flex overflow-hidden", pinned ? "h-full w-screen items-center" : "py-20")}>
+          {/* Marketing */}
+          <div data-theme="cobalt" onFocusCapture={() => focusPanel(2)} className={cn("relative flex overflow-hidden", pinned ? "h-full w-screen items-center" : "py-14 md:py-20")}>
             <div className="wrap grid-12 items-end gap-y-10">
               <div className="col-span-12 lg:col-span-8">
-                <h3 className="t-card !text-[clamp(4.5rem,14vw,15rem)]">Growth</h3>
+                <h3 className="t-card !text-[clamp(3.5rem,11vw,12rem)]">Marketing</h3>
                 <p className="t-m mt-6 max-w-[26ch]">Marketing strategy and business growth for people building something of their own.</p>
               </div>
               <div className="col-span-12 lg:col-span-4">
@@ -135,8 +135,8 @@ export function Doors() {
             <div className="wrap text-white mix-blend-difference">
               <div className="t-label flex justify-between">
                 <span>Homes</span>
-                <span>Capital</span>
-                <span>Growth</span>
+                <span>Investing</span>
+                <span>Marketing</span>
               </div>
               <div className="relative mt-2 h-px bg-white/30">
                 <motion.span style={{ scaleX: scrollYProgress }} className="absolute inset-0 origin-left bg-white" />

@@ -101,7 +101,7 @@ export default async function HomePage() {
           <DraftNote className="mt-5 text-muted">Sample drafts, written to show how the journal works. Replace them with your own.</DraftNote>
           <div className="grid-12 mt-10 gap-y-14">
             {lead ? <PostCard post={lead} large className="col-span-12 lg:col-span-7" /> : null}
-            <div className="col-span-12 grid gap-12 sm:grid-cols-2 lg:col-span-4 lg:col-start-9 lg:grid-cols-1">
+            <div className="col-span-12 hidden gap-12 sm:grid sm:grid-cols-2 lg:col-span-4 lg:col-start-9 lg:grid-cols-1">
               {rest.map((p) => (
                 <PostCard key={p.slug} post={p} aspect="aspect-[16/9]" />
               ))}

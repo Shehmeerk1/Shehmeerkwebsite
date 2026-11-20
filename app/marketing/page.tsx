@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
-import { Play } from "lucide-react";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 import { LeadForm } from "@/components/forms/lead-form";
 import { ScrollWords } from "@/components/home/scroll-words";
 import { Capabilities } from "@/components/marketing/capabilities";
 import { KineticTitle } from "@/components/marketing/kinetic-title";
 import { DraftNote } from "@/components/site/draft-note";
-import { PortraitSlot } from "@/components/site/photo";
-import { cn } from "@/lib/utils";
+import { Photo, PhotoNote } from "@/components/site/photo";
+import { Button } from "@/components/ui/button";
 
 export const metadata: Metadata = {
   title: "Marketing and business",
@@ -14,13 +15,8 @@ export const metadata: Metadata = {
   alternates: { canonical: "/marketing" },
 };
 
-/** Reserved slots for real case studies: each states the kind of work it will hold. */
-const WORK = [
-  { kind: "Brand launch", brief: "A company introduced to its market: name, story, first campaign.", theme: "bloom", span: "lg:col-span-7", aspect: "aspect-[16/11]" },
-  { kind: "Growth system", brief: "Lead generation rebuilt around one channel, measured week by week.", theme: "basalt", span: "lg:col-span-5 lg:mt-28", aspect: "aspect-[4/5]" },
-  { kind: "Listing campaign", brief: "A home launched like a product: audience, story, release plan.", theme: "ember", span: "lg:col-span-5", aspect: "aspect-[4/5]" },
-  { kind: "Founder content", brief: "A personal brand built from the founder's real work and voice.", theme: "dawn", span: "lg:col-span-7 lg:-mt-24", aspect: "aspect-[16/11]" },
-];
+/** The kinds of work case studies will cover, once the material is in. */
+const IN_PROGRESS = ["Brand launch", "Growth system", "Listing campaign", "Founder content"];
 
 const PROCESS = [
   { name: "Listen", line: "Customers, numbers, the founder. Before any idea." },
@@ -33,62 +29,34 @@ export default function MarketingPage() {
   return (
     <>
       <section data-theme="cobalt" className="relative overflow-hidden pt-28">
-        <div className="wrap pb-10">
+        <div className="wrap pb-[clamp(3.5rem,7vw,6rem)]">
           <KineticTitle lines={["Attention,", "earned."]} className="t-card !text-[clamp(4.5rem,18vw,20rem)]" />
-          <div className="grid-12 mt-10 items-end gap-y-6">
-            <p className="t-m fade-late col-span-12 max-w-[30ch] lg:col-span-6" style={{ "--i": 3 } as React.CSSProperties}>
-              Alongside real estate, I build marketing and growth for businesses and the people who start them. This is that side of the work.
+          <div className="grid-12 mt-10 items-end gap-y-8">
+            <p className="t-m fade-late col-span-12 max-w-[32ch] lg:col-span-6" style={{ "--i": 3 } as React.CSSProperties}>
+              I built marketing businesses before I sold homes. Now I do both: growth for founders and small teams, and every listing launched like a product.
             </p>
-            <p className="t-label fade-late col-span-12 text-muted lg:col-span-4 lg:col-start-9 lg:text-right" style={{ "--i": 4 } as React.CSSProperties}>
-              Strategy, brand, content and growth, for founders and small teams.
-            </p>
-          </div>
-        </div>
-        {/* Showreel slot: a real reel plays here once it exists. */}
-        <div className="wrap pb-[clamp(4rem,8vw,7rem)]">
-          <figure role="img" aria-label="Reserved for a showreel" className="grain relative isolate flex aspect-[16/9] items-end overflow-hidden rounded-[1.5rem] bg-[#0f0e0c] p-[clamp(1rem,3vw,2.5rem)] text-[#f3f0ea]">
-            <div aria-hidden className="absolute inset-0 -z-10 bg-[radial-gradient(80%_80%_at_75%_30%,rgba(37,55,238,0.55),transparent_60%),radial-gradient(60%_70%_at_20%_80%,rgba(255,107,61,0.35),transparent_60%)]" />
-            <span aria-hidden className="absolute left-1/2 top-1/2 flex size-[clamp(5rem,9vw,8rem)] -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-white/40">
-              <Play className="size-8 translate-x-0.5 opacity-80" />
-            </span>
-            <figcaption className="flex w-full flex-wrap items-end justify-between gap-4">
-              <span className="t-l">Showreel</span>
-              <span className="t-label opacity-75">Reserved for a 60-second reel of real work</span>
-            </figcaption>
-          </figure>
-        </div>
-      </section>
-
-      <section data-theme="chalk" aria-labelledby="work-title" className="py-[clamp(4.5rem,9vw,8rem)]">
-        <div className="wrap">
-          <div className="grid-12 items-end gap-y-6">
-            <h2 id="work-title" className="t-xl col-span-12 lg:col-span-7">
-              Selected work
-            </h2>
-            <div className="col-span-12 lg:col-span-4 lg:col-start-9">
-              <p className="t-body text-muted">Case studies are being written. Each frame below is reserved for one: the client, the problem, what changed and the result, with its source.</p>
-              <DraftNote className="mt-4 text-muted">Send the material for each project and these fill in. Nothing is shown here until it is real.</DraftNote>
+            <div className="fade-late col-span-12 flex flex-wrap gap-3 lg:col-span-5 lg:col-start-8 lg:justify-end" style={{ "--i": 4 } as React.CSSProperties}>
+              <Button asChild variant="accent" size="lg">
+                <a href="#collaborate">
+                  Work together <ArrowRight aria-hidden />
+                </a>
+              </Button>
+              <Button asChild variant="outline" size="lg">
+                <Link href="/real-estate#selling">See how I sell a home</Link>
+              </Button>
             </div>
           </div>
-          <ul className="grid-12 mt-14 gap-y-10">
-            {WORK.map((w) => (
-              <li key={w.kind} className={cn("col-span-12", w.span)}>
-                <div data-theme={w.theme} className={cn("group relative flex flex-col justify-between overflow-hidden rounded-[1.5rem] p-[clamp(1.25rem,3vw,2.5rem)]", w.aspect)}>
-                  <span className="t-label text-muted">Case study to come</span>
-                  <span className="t-card !text-[clamp(3rem,7vw,7.5rem)] transition-transform duration-700 ease-[var(--ease-out-expo)] group-hover:-translate-y-2">{w.kind}</span>
-                </div>
-                <p className="t-body mt-4 max-w-md text-muted">{w.brief}</p>
-              </li>
-            ))}
-          </ul>
         </div>
       </section>
 
       <section data-theme="basalt" aria-labelledby="cap-title" className="py-[clamp(4.5rem,9vw,8rem)]">
         <div className="wrap">
-          <h2 id="cap-title" className="t-xl mb-12">
-            What I do
-          </h2>
+          <div className="grid-12 mb-12 items-end gap-y-6">
+            <h2 id="cap-title" className="t-xl col-span-12 lg:col-span-7">
+              What I do
+            </h2>
+            <p className="t-body col-span-12 max-w-md text-muted lg:col-span-4 lg:col-start-9">Six pieces of one job: getting the right people to notice, trust and choose a business. Most projects need two or three of them, not all six.</p>
+          </div>
           <Capabilities />
         </div>
       </section>
@@ -110,18 +78,48 @@ export default function MarketingPage() {
         </div>
       </section>
 
+      <section data-theme="chalk" aria-labelledby="listing-title" className="py-[clamp(4.5rem,9vw,8rem)]">
+        <div className="wrap grid-12 items-center gap-y-10">
+          <div className="relative col-span-12 lg:col-span-6">
+            <Photo name="duskGable" className="aspect-[4/3] rounded-[1.25rem]" sizes="(min-width: 1024px) 45vw, 100vw" />
+            <Photo name="livingWide" className="absolute -bottom-8 -right-4 hidden aspect-[4/5] w-[32%] rounded-[1rem] ring-8 ring-bg sm:block" sizes="15vw" />
+          </div>
+          <div className="col-span-12 lg:col-span-5 lg:col-start-8">
+            <h2 id="listing-title" className="t-xl">The same playbook, on a house</h2>
+            <p className="t-m mt-6 max-w-[30ch]">A listing has an audience, a story and a launch date. I plan it the way I would plan a product: who buys this home, what would stop them, and what they will remember.</p>
+            <Link href="/journal/three-questions-before-you-list" className="t-label mt-8 inline-flex min-h-11 items-center gap-2">
+              <span className="link-draw">Read: three questions before you list</span>
+              <ArrowRight className="size-4" aria-hidden />
+            </Link>
+          </div>
+        </div>
+      </section>
+
       <section data-theme="cobalt" aria-label="Principles" className="overflow-hidden py-[clamp(3rem,6vw,5rem)]">
         <ScrollWords top="Know the audience. Tell the truth well." bottom="Do one channel properly. Keep showing up." />
       </section>
 
       <section data-theme="dawn" aria-labelledby="background-title" className="py-[clamp(4.5rem,9vw,8rem)]">
-        <div className="wrap grid-12 items-center gap-y-10">
-          <PortraitSlot shot="Shehmeer with a founder" direction="Working session, whiteboard or laptop between them. Documentary, not staged." tone="light" className="col-span-12 aspect-[4/5] rounded-[1.25rem] sm:col-span-8 lg:col-span-5" />
-          <div className="col-span-12 lg:col-span-6 lg:col-start-7">
+        <div className="wrap grid-12 gap-y-10">
+          <div className="col-span-12 lg:col-span-5">
             <h2 id="background-title" className="t-xl">Where this comes from</h2>
-            <p className="t-voice mt-8">Marketing taught me to study an audience before saying a word to it. Running a business taught me what a late decision costs.</p>
+            <PhotoNote shot="Shehmeer with a founder" direction="A working session, whiteboard or laptop between them. Documentary, not staged." className="mt-8" />
+          </div>
+          <div className="col-span-12 lg:col-span-6 lg:col-start-7">
+            <p className="t-voice">Marketing taught me to study an audience before saying a word to it. Running a business taught me what a late decision costs.</p>
             <p className="t-body mt-6 max-w-[56ch] text-muted">My background is in building marketing businesses, developing growth strategies and working with entrepreneurs. Real estate is part of the same practice, and each side makes the other better.</p>
             <DraftNote className="mt-6 text-muted">Add the specifics: the companies you built, the years, the industries, and what each taught you.</DraftNote>
+            <div className="mt-10 border-t border-line pt-6">
+              <h3 className="t-label text-muted">Case studies in progress</h3>
+              <ul className="mt-3 flex flex-wrap gap-2">
+                {IN_PROGRESS.map((k) => (
+                  <li key={k} className="t-label rounded-full border border-dashed border-fg/35 px-4 py-2.5">
+                    {k}
+                  </li>
+                ))}
+              </ul>
+              <p className="mt-3 text-[0.875rem] text-muted">Each will show the client, the problem, what changed and a sourced result. Nothing appears until it is real.</p>
+            </div>
           </div>
         </div>
       </section>

@@ -4,7 +4,6 @@ import { ArrowRight } from "lucide-react";
 import { LeadForm } from "@/components/forms/lead-form";
 import { NeighborhoodIndex } from "@/components/map/neighborhood-index";
 import { SunOrientation } from "@/components/real-estate/sun-orientation";
-import { CloseCta } from "@/components/site/close-cta";
 import { DraftNote } from "@/components/site/draft-note";
 import { Photo } from "@/components/site/photo";
 import { Steps } from "@/components/site/steps";
@@ -59,10 +58,10 @@ export default function RealEstatePage() {
           <h1 className="t-card col-span-12 !text-[clamp(3.6rem,11.5vw,13rem)] lg:col-span-8">
             <span className="line-mask" style={{ "--i": 0 } as React.CSSProperties}>
               <span>Arizona</span>
-            </span>
+            </span>{" "}
             <span className="line-mask" style={{ "--i": 1 } as React.CSSProperties}>
               <span>homes,</span>
-            </span>
+            </span>{" "}
             <span className="line-mask" style={{ "--i": 2 } as React.CSSProperties}>
               <span className="text-accent">handled.</span>
             </span>
@@ -205,7 +204,6 @@ export default function RealEstatePage() {
         </div>
       </section>
 
-      <CloseCta />
     </>
   );
 }

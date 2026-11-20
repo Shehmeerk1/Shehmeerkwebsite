@@ -21,7 +21,7 @@ export default function ResourcesPage() {
           <h1 className="t-card col-span-12 !text-[clamp(4rem,14vw,15rem)] lg:col-span-7">
             <span className="line-mask" style={{ "--i": 0 } as React.CSSProperties}>
               <span>Free</span>
-            </span>
+            </span>{" "}
             <span className="line-mask" style={{ "--i": 1 } as React.CSSProperties}>
               <span>guides.</span>
             </span>

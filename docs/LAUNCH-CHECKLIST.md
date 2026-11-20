@@ -8,6 +8,7 @@ Nothing below has been assumed on your behalf. Each item is something only you c
 - [ ] Email and phone
 - [ ] Social links
 - [ ] Booking link (`NEXT_PUBLIC_SCHEDULING_URL`) for "Schedule a conversation"
+- [ ] Your reply time (for example "within one business day"), to add to the form confirmations once you can commit to it
 - [ ] Confirm the market: the site assumes Greater Phoenix (hero clock, map, communities). Change `lib/communities.ts` if your area differs.
 
 ## Content to replace

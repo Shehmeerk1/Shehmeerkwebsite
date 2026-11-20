@@ -54,7 +54,7 @@ GetDesign is a reference, not a skill. It provides `DESIGN.md` files (colors, ty
 
 - Stack: Next.js 16 App Router, React 19, TypeScript, Tailwind v4, shadcn-style primitives in `components/ui`, Motion, Lucide. Run with `npm run dev`.
 - Design source of truth: `DESIGN.md` ("The Valley by the hour": per-section `data-theme` hours, condensed Archivo title cards, graded photography). Components use only the theme tokens (`bg-bg`, `text-fg`, `text-muted`, `border-line`, `bg-accent`...).
-- No eyebrow labels above headings; no invented facts. Unverified material goes in `lib/site.ts` as `null` or is marked with `<DraftNote>`. Photos of Shehmeer are `PortraitSlot` frames until real ones exist (`docs/SHOT-LIST.md`).
+- No eyebrow labels above headings; no invented facts. Unverified material goes in `lib/site.ts` as `null` or is marked with `<DraftNote>`. Where a photo of Shehmeer will go, use a compact `PhotoNote` (`components/site/photo.tsx`) until real ones exist (`docs/SHOT-LIST.md`). The home valuation is the primary action.
 - Sample listings must keep both flags ("Sample listing", "Stand-in photos").
 - Docs: `README.md`, `docs/IDX-INTEGRATION.md`, `docs/LEADS.md`, `docs/LAUNCH-CHECKLIST.md`, `docs/SHOT-LIST.md`.
-- Impeccable's launcher (engine download) was blocked by the session's auto-mode permission check; its written references were followed instead.
+- Impeccable runs (engine installed). Audit and critique reports live in `.impeccable/`.

@@ -15,7 +15,7 @@ export function Header() {
   const pathname = usePathname();
   const pill = "rounded-full bg-[#0f0e0c]/72 text-[#f3f0ea] backdrop-blur-xl backdrop-saturate-150 ring-1 ring-white/10 [--mono-ink:#0f0e0c]";
   return (
-    <header data-theme="basalt" className="!bg-transparent pointer-events-none fixed inset-x-0 top-0 z-50">
+    <header data-theme="basalt" className="!bg-transparent pointer-events-none fixed inset-x-0 top-0 z-50 [&_:focus-visible]:!outline-white [&_:focus-visible]:outline-offset-2">
       <div className="wrap flex items-center justify-between gap-3 pt-3 sm:pt-4">
         <div className={cn(pill, "pointer-events-auto py-1 pl-1.5 pr-4 [&_svg>rect]:fill-[#f3f0ea]")}>
           <Wordmark />
@@ -39,8 +39,8 @@ export function Header() {
               })}
             </ul>
           </nav>
-          <Link href="/contact" className="t-label hidden min-h-11 items-center rounded-full bg-[#ff6b3d] px-4 text-[#0f0e0c] transition-colors duration-300 hover:bg-[#f3f0ea] sm:inline-flex">
-            Let&rsquo;s talk
+          <Link href="/real-estate#valuation" className="t-label hidden min-h-11 items-center rounded-full bg-[#ff6b3d] px-4 text-[#0f0e0c] transition-colors duration-300 hover:bg-[#f3f0ea] sm:inline-flex">
+            Home valuation
           </Link>
           <Menu />
         </div>

@@ -11,11 +11,11 @@ Set with `data-theme` on any section. Each hour defines `--bg`, `--fg`, `--muted
 | Hour | Ground | Accent | Used for |
 |---|---|---|---|
 | `basalt` (night) | `#0f0e0c` | ember `#ff6b3d` | Home hero, journal, footer, menu |
-| `chalk` (noon light) | `#f3f1ec` | cobalt `#2537ee` | Search, listings, reading |
+| `chalk` (noon light) | `#f1f4f5` (bleached, cool) | cobalt `#2537ee` | Search, listings, reading |
 | `cobalt` (noon sky) | `#2537ee` | palo-verde `#f2d33b` | Marketing |
 | `bloom` (palo verde in flower) | `#f2d33b` | cobalt | Free guides, valuation |
 | `night` (after dark) | `#0a0e1a` | brass `#d9b26a` | Investors |
-| `dawn` | `#f0d6c8` | oxblood `#a8321c` | About, communities |
+| `dawn` | `#f0d6c8` (muted `#5c372b`) | oxblood `#a8321c` | About, communities |
 | `ember` (dusk) | `#ff6b3d` | basalt | Contact, closing calls to action |
 
 Each route opens in its own hour (`lib/themes.ts`); the page-transition wipe uses that colour.
@@ -25,6 +25,8 @@ Each route opens in its own hour (`lib/themes.ts`); the page-transition wipe use
 - **Archivo** (variable width 62 to 125). Title cards at width 62, weight 800, upper case: `t-card` (hero names), `t-xl` (section titles), `t-l`. Interface and body text at normal width: `t-m`, `t-s`, `t-body`, `t-label` (expanded, sentence case).
 - **Newsreader italic** is Shehmeer's own voice (`t-voice`): one personal line per page. Newsreader roman sets article bodies.
 - No eyebrow labels above headings. No all-caps labels.
+- Multi-line text roles (`t-m`, `t-s`, `t-voice`) keep 1.3 line-height; article measure stays under 80 characters.
+- Dimmed states never fall below 3:1.
 
 ## Composition
 
@@ -35,9 +37,9 @@ Each route opens in its own hour (`lib/themes.ts`); the page-transition wipe use
 
 ## Signature moments
 
-1. **Homepage title card** (`components/home/hero-cinema.tsx`): letterbox bars close to a cinema frame on load, the photograph settles, the name rises; a portrait slot sits beside the name; a live readout of the light in Phoenix (computed from the real sun position).
-2. **Identity scroll**: a held portrait while "I sell homes. I invest in them. I market them." pass it.
-3. **Three doors** (`doors.tsx`): a pinned horizontal scene, Homes, Capital and Growth, each in its own hour; a survey plat draws itself on the Capital panel. Stacks vertically on phones and under reduced motion; keyboard focus scrolls to the right panel.
+1. **Homepage title card** (`components/home/hero-cinema.tsx`): letterbox bars close to a cinema frame on load, the photograph settles, the name rises; a live readout of the light in Phoenix (computed from the real sun position).
+2. **Identity scroll**: a held photograph that changes with each of "I sell homes. I invest in them. I market them."
+3. **Three doors** (`doors.tsx`): a pinned horizontal scene, Homes, Investing and Marketing, each in its own hour; a survey plat draws itself on the Capital panel. Stacks vertically on phones and under reduced motion; keyboard focus scrolls to the right panel.
 4. **Neighbourhood index** (`components/map/neighborhood-index.tsx`): names as a giant list; the survey-grid map draws a line from downtown to the chosen place and gives the real distance.
 5. **Sun and orientation tool** (`components/real-estate/sun-orientation.tsx`): real solar position for a month and hour, the house's shadow, and whether a yard facing N/E/S/W is in sun.
 6. **Capital plat** (`components/invest/capital-plat.tsx`): a block divided into residential, multifamily and development parcels.
@@ -51,8 +53,14 @@ Each route opens in its own hour (`lib/themes.ts`); the page-transition wipe use
 - Scroll-linked effects stop when the reader stops; nothing autoplays longer than a few seconds.
 - Everything rests under `prefers-reduced-motion`; pinned scenes become normal stacked sections.
 
+## Conversion
+
+- The home valuation is the primary action: the header button, the hero's third link, the default contact topic and the default closing section all lead to it.
+- One closing section per page (`CloseCta`), matched to the page; pages that end on a form have none. The footer is plain links.
+- Forms mark required fields, keep typed name/email/phone when the form type switches, refuse past showing dates and end with a next step.
+
 ## Honesty rules
 
 - Sample listings carry two flags: "Sample listing" and "Stand-in photos". Their photographs are licensed photos of other properties.
-- Portrait and case-study frames say "Photograph to come" / "Case study to come" with the art direction. Never a generated or drawn face.
+- Where a photograph of Shehmeer will go, a compact `PhotoNote` names the shot and its brief; empty frames never take prime space. Case studies appear as one "in progress" row until real. Never a generated or drawn face.
 - No invented credentials, numbers, testimonials or returns. Draft copy is marked with `<DraftNote>`.

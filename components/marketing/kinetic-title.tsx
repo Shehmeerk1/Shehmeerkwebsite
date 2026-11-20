@@ -20,12 +20,14 @@ export function KineticTitle({ lines, className }: { lines: string[]; className?
     let py = -9999;
     const paint = () => {
       frame = 0;
-      for (const l of letters) {
-        const r = l.getBoundingClientRect();
+      const rects = letters.map((l) => l.getBoundingClientRect());
+      const values = rects.map((r) => {
         const d = Math.hypot(px - (r.left + r.width / 2), py - (r.top + r.height / 2));
-        const t = Math.max(0, 1 - d / 260);
-        l.style.fontVariationSettings = `"wdth" ${(62 + t * 48).toFixed(1)}`;
-      }
+        return `"wdth" ${(62 + Math.max(0, 1 - d / 260) * 48).toFixed(1)}`;
+      });
+      letters.forEach((l, i) => {
+        l.style.fontVariationSettings = values[i];
+      });
     };
     const onMove = (e: PointerEvent) => {
       px = e.clientX;

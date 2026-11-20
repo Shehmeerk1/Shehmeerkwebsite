@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
 import { fullNav, site } from "@/lib/site";
 import { DraftNote } from "./draft-note";
 
@@ -16,17 +15,11 @@ export function Footer() {
   const { brokerage, contact, social } = site;
   return (
     <footer data-theme="basalt" className="relative overflow-hidden">
-      <div className="wrap pt-[clamp(4rem,9vw,8rem)]">
+      <div className="wrap pt-[clamp(3rem,6vw,5rem)]">
         <div className="grid-12 gap-y-12">
           <div className="col-span-12 lg:col-span-6">
-            <Link href="/contact" className="group inline-block">
-              <span className="t-xl block">Have a move</span>
-              <span className="t-xl flex items-center gap-[0.15em] text-accent">
-                in mind?
-                <ArrowUpRight className="size-[0.8em] transition-transform duration-500 ease-[var(--ease-out-expo)] group-hover:-translate-y-2 group-hover:translate-x-2" strokeWidth={1.5} aria-hidden />
-              </span>
-            </Link>
-            <p className="t-body mt-6 max-w-sm text-muted">Homes, capital and growth in {site.region}. Tell me what you are planning and I will tell you how I would go about it.</p>
+            <p className="t-l">Shehmeer Kanwar</p>
+            <p className="t-body mt-4 max-w-sm text-muted">Real estate, investment and marketing in {site.region}.</p>
           </div>
           <nav aria-label="Footer" className="col-span-6 lg:col-span-3">
             <ul>
