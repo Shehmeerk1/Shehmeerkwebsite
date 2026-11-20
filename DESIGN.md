@@ -38,8 +38,7 @@ Each route opens in its own hour (`lib/themes.ts`); the page-transition wipe use
 ## Signature moments
 
 1. **Homepage title card** (`components/home/hero-cinema.tsx`): letterbox bars close to a cinema frame on load, the photograph settles, the name rises; a live readout of the light in Phoenix (computed from the real sun position).
-2. **Identity scroll**: a held photograph that changes with each of "I sell homes. I invest in them. I market them."
-3. **Three doors** (`doors.tsx`): a pinned horizontal scene, Homes, Investing and Marketing, each in its own hour; a survey plat draws itself on the Capital panel. Stacks vertically on phones and under reduced motion; keyboard focus scrolls to the right panel.
+2. **Three doors** (`doors.tsx`): a pinned horizontal scene, Homes ("I sell homes."), Investing ("I invest in them.") and Marketing ("I market them."), each in its own hour; a survey plat draws itself on the Capital panel. Stacks vertically on phones and under reduced motion; keyboard focus scrolls to the right panel.
 4. **Neighbourhood index** (`components/map/neighborhood-index.tsx`): names as a giant list; the survey-grid map draws a line from downtown to the chosen place and gives the real distance.
 5. **Sun and orientation tool** (`components/real-estate/sun-orientation.tsx`): real solar position for a month and hour, the house's shadow, and whether a yard facing N/E/S/W is in sun.
 6. **Capital plat** (`components/invest/capital-plat.tsx`): a block divided into residential, multifamily and development parcels.
@@ -57,7 +56,9 @@ Each route opens in its own hour (`lib/themes.ts`); the page-transition wipe use
 
 - The home valuation is the primary action: the header button, the hero's third link, the default contact topic and the default closing section all lead to it.
 - One closing section per page (`CloseCta`), matched to the page; pages that end on a form have none. The footer is plain links.
-- Forms mark required fields, keep typed name/email/phone when the form type switches, refuse past showing dates and end with a next step.
+- Forms mark required fields, keep typed name/email/phone when the form type switches, refuse past showing dates, give specific error messages (with a count at three or more), move focus to the confirmation and end with a next step.
+- The valuation asks only for address, name and email up front; other details fold behind "Add details (optional)".
+- The header tucks away while scrolling down and returns on scroll up or keyboard focus.
 
 ## Honesty rules
 

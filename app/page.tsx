@@ -3,7 +3,6 @@ import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { Doors } from "@/components/home/doors";
 import { HeroCinema } from "@/components/home/hero-cinema";
 import { HomeRail } from "@/components/home/home-rail";
-import { IdentityScroll } from "@/components/home/identity-scroll";
 import { PostCard } from "@/components/journal/post-card";
 import { DemoBanner } from "@/components/listings/demo-banner";
 import { NeighborhoodIndex } from "@/components/map/neighborhood-index";
@@ -24,7 +23,6 @@ export default async function HomePage() {
   return (
     <>
       <HeroCinema />
-      <IdentityScroll />
       <Doors />
 
       {/* Homes */}

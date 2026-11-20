@@ -20,10 +20,10 @@ const NEXT_STEPS = [
 export default function ValuationPage() {
   return (
     <>
-      <section data-theme="bloom" className="pt-28">
+      <section data-theme="bloom" className="pt-24 md:pt-28">
         <div className="wrap grid-12 gap-y-10 pb-[clamp(4rem,8vw,7rem)] lg:gap-y-12">
           <div className="col-span-12 lg:col-span-5">
-            <h1 className="t-card !text-[clamp(3.6rem,8.5vw,9rem)]">
+            <h1 className="t-card !text-[clamp(2.9rem,8.5vw,9rem)]">
               <span className="line-mask" style={{ "--i": 0 } as React.CSSProperties}>
                 <span>What is</span>
               </span>{" "}

@@ -74,7 +74,7 @@ export function Doors() {
             <div className="wrap grid-12 items-center gap-y-10">
               <div className="col-span-12 lg:col-span-5">
                 <h3 className="t-card !text-[clamp(3.5rem,12vw,13rem)]">Homes</h3>
-                <p className="t-m mt-6 max-w-[24ch]">Find the right one. Sell yours for what it is actually worth.</p>
+                <p className="t-m mt-6 max-w-[26ch]"><span className="font-bold">I sell homes.</span> Find the right one, or sell yours for what it is actually worth.</p>
                 <div className="mt-8 flex flex-wrap gap-3">
                   <Button asChild size="lg">
                     <Link href="/homes">
@@ -101,7 +101,7 @@ export function Doors() {
               </div>
               <div className="order-1 col-span-12 lg:order-2 lg:col-span-5 lg:col-start-8">
                 <h3 className="t-card !text-[clamp(3.5rem,9.5vw,10.5rem)]">Investing</h3>
-                <p className="t-m mt-6 max-w-[24ch]">Residential, multifamily and development property, chosen with patience.</p>
+                <p className="t-m mt-6 max-w-[26ch]"><span className="font-bold">I invest in them.</span> Residential, multifamily and development property, chosen with patience.</p>
                 <Button asChild variant="accent" size="lg" className="mt-8">
                   <Link href="/invest">
                     Invest with me <ArrowRight aria-hidden />
@@ -116,7 +116,7 @@ export function Doors() {
             <div className="wrap grid-12 items-end gap-y-10">
               <div className="col-span-12 lg:col-span-8">
                 <h3 className="t-card !text-[clamp(3.5rem,11vw,12rem)]">Marketing</h3>
-                <p className="t-m mt-6 max-w-[26ch]">Marketing strategy and business growth for people building something of their own.</p>
+                <p className="t-m mt-6 max-w-[28ch]"><span className="font-bold">I market them.</span> I built marketing businesses before I sold homes, and I still do strategy and growth for people building something of their own.</p>
               </div>
               <div className="col-span-12 lg:col-span-4">
                 <Photo name="saguaroDusk" className="mb-6 hidden aspect-[4/3] rounded-[1rem] lg:block" sizes="30vw" />

@@ -18,7 +18,7 @@ const DEFAULT_ROUTES: Route[] = [
 export function CloseCta({
   title = "What is your home worth?",
   lede = "Tell me about the property and I will reply with a considered range from recent comparable sales. No automated estimate.",
-  primary = { href: "/valuation", label: "Request a home valuation" },
+  primary = { href: "/valuation", label: "Request a valuation" },
   routes = DEFAULT_ROUTES,
 }: {
   title?: string;

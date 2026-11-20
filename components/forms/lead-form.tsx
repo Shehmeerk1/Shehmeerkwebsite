@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useId, useRef, useState, useSyncExternalStore } from "react";
+import { useEffect, useId, useRef, useState, useSyncExternalStore } from "react";
 import { ArrowRight, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -10,11 +10,13 @@ import { Input, Select, Textarea } from "@/components/ui/input";
 import { CONSENT_WORDING, leadSchema, validateExtras, type LeadKind } from "@/lib/leads/schema";
 import { cn } from "@/lib/utils";
 
-type Field =
+/** `more` fields sit behind an "Add details (optional)" toggle; they still submit when folded. */
+type Field = { more?: boolean } & (
   | { name: string; label: string; type: "text" | "email" | "tel" | "date"; required?: boolean; autoComplete?: string; half?: boolean; hint?: string }
   | { name: string; label: string; type: "textarea"; required?: boolean; hint?: string }
   | { name: string; label: string; type: "select"; options: string[]; required?: boolean; half?: boolean }
-  | { name: string; label: string; type: "checks"; options: string[]; required?: boolean };
+  | { name: string; label: string; type: "checks"; options: string[]; required?: boolean }
+);
 
 const CORE = new Set(["name", "email", "phone", "message"]);
 const who: Field[] = [
@@ -36,11 +38,11 @@ const FIELDS: Record<LeadKind, Field[]> = {
   ],
   valuation: [
     { name: "propertyAddress", label: "Property address", type: "text", required: true, autoComplete: "street-address" },
-    { name: "propertyType", label: "Property type", type: "select", options: ["Single family", "Townhome", "Condominium", "Multifamily", "Land"], half: true },
-    timeline,
     ...who,
-    phone,
-    { name: "message", label: "Recent updates, or questions you have", type: "textarea" },
+    { name: "propertyType", label: "Property type", type: "select", options: ["Single family", "Townhome", "Condominium", "Multifamily", "Land"], half: true, more: true },
+    { ...timeline, more: true },
+    { ...phone, more: true },
+    { name: "message", label: "Recent updates, or questions you have", type: "textarea", more: true },
   ],
   "property-inquiry": [...who, phone, { name: "message", label: "Your question", type: "textarea" }],
   "showing-request": [
@@ -122,6 +124,7 @@ export function LeadForm({ kind, hidden, className, idPrefix }: { kind: LeadKind
   const uid = useId();
   const pid = idPrefix ?? uid;
   const formRef = useRef<HTMLFormElement>(null);
+  const sentRef = useRef<HTMLDivElement>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [status, setStatus] = useState<Status>({ state: "idle" });
   const fields = FIELDS[kind];
@@ -155,11 +158,13 @@ export function LeadForm({ kind, hidden, className, idPrefix }: { kind: LeadKind
       website: String(data.get("website") ?? ""),
     };
 
-    const parsed = leadSchema.safeParse(payload);
     const found: Record<string, string> = {};
+    // Empty required fields first, so "empty" and "too short" get different messages.
+    const EMPTY: Record<string, string> = { name: "Enter your name.", email: "Enter your email address.", message: "Add a short message." };
+    for (const f of fields) if (f.required && CORE.has(f.name) && !String(data.get(f.name) ?? "").trim()) found[f.name] = EMPTY[f.name] ?? "This field is required.";
+    const parsed = leadSchema.safeParse(payload);
     if (!parsed.success) for (const issue of parsed.error.issues) found[String(issue.path[0])] ??= issue.message;
     for (const [k, v] of Object.entries(validateExtras(payload as Parameters<typeof validateExtras>[0]))) found[k] ??= v;
-    for (const f of fields) if (f.required && CORE.has(f.name) && !String(data.get(f.name) ?? "").trim()) found[f.name] ??= "This field is required.";
     const date = String(data.get("preferredDate") ?? "");
     if (date && today && date < today) found.preferredDate ??= "Choose today or a later date.";
 
@@ -186,10 +191,16 @@ export function LeadForm({ kind, hidden, className, idPrefix }: { kind: LeadKind
     }
   }
 
+  useEffect(() => {
+    if (status.state !== "sent" || !sentRef.current) return;
+    sentRef.current.focus({ preventScroll: true });
+    sentRef.current.scrollIntoView({ block: "center", behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+  }, [status.state]);
+
   if (status.state === "sent") {
     const sent = SENT[kind];
     return (
-      <div role="status" className={cn("border-t border-accent pt-8", className)}>
+      <div ref={sentRef} tabIndex={-1} role="status" className={cn("scroll-mt-28 border-t border-accent pt-8 outline-none", className)}>
         <p className="flex items-baseline gap-3">
           <span className="inline-block size-3 rounded-full bg-accent" aria-hidden />
           <span className="t-m">{sent.title}</span>
@@ -219,12 +230,7 @@ export function LeadForm({ kind, hidden, className, idPrefix }: { kind: LeadKind
   const err = (name: string) => (errors[name] ? <p id={`${pid}-${name}-err`} className="mt-2 text-[0.9375rem] text-error">{errors[name]}</p> : null);
   const aria = (name: string) => ({ "aria-invalid": errors[name] ? true : undefined, "aria-describedby": errors[name] ? `${pid}-${name}-err` : undefined });
 
-  return (
-    <form ref={formRef} onSubmit={onSubmit} noValidate className={cn("grid grid-cols-1 gap-x-8 gap-y-7 sm:grid-cols-2", className)}>
-      <p className="text-[0.875rem] text-muted sm:col-span-full" aria-hidden>
-        Fields marked <span className="text-fg">*</span> are required.
-      </p>
-      {fields.map((f) => {
+  const renderField = (f: Field) => {
         const id = `${pid}-${f.name}`;
         const half = "half" in f && f.half;
         return (
@@ -282,7 +288,23 @@ export function LeadForm({ kind, hidden, className, idPrefix }: { kind: LeadKind
             {err(f.name)}
           </div>
         );
-      })}
+      };
+
+  return (
+    <form ref={formRef} onSubmit={onSubmit} noValidate className={cn("grid grid-cols-1 gap-x-8 gap-y-7 sm:grid-cols-2", className)}>
+      <p className="text-[0.875rem] text-muted sm:col-span-full" aria-hidden>
+        Fields marked <span className="text-fg">*</span> are required.
+      </p>
+      {fields.filter((f) => !f.more).map(renderField)}
+      {fields.some((f) => f.more) ? (
+        <details className="group/more sm:col-span-full" open={Object.keys(errors).some((k) => fields.find((f) => f.name === k)?.more) || undefined}>
+          <summary className="t-label inline-flex min-h-11 cursor-pointer list-none items-center gap-2 text-fg [&::-webkit-details-marker]:hidden">
+            <span aria-hidden className="inline-block transition-transform duration-300 group-open/more:rotate-45">+</span>
+            <span className="link-draw">Add details (optional)</span>
+          </summary>
+          <div className="mt-4 grid grid-cols-1 gap-x-8 gap-y-7 sm:grid-cols-2">{fields.filter((f) => f.more).map(renderField)}</div>
+        </details>
+      ) : null}
 
       {/* Honeypot: hidden from people, tempting to bots. */}
       <div className="absolute left-[-9999px] top-auto size-px overflow-hidden" aria-hidden>
@@ -316,6 +338,11 @@ export function LeadForm({ kind, hidden, className, idPrefix }: { kind: LeadKind
         <Button type="submit" size="lg" disabled={status.state === "sending"}>
           {status.state === "sending" ? "Sending…" : SUBMIT[kind]} <ArrowRight aria-hidden />
         </Button>
+        {Object.keys(errors).length >= 3 ? (
+          <p aria-live="polite" className="text-[0.9375rem] text-error">
+            {Object.keys(errors).length} fields need attention.
+          </p>
+        ) : null}
         {status.state === "failed" ? (
           <p role="alert" className="max-w-md text-[0.9375rem] text-error">
             {status.message}

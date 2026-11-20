@@ -33,7 +33,7 @@ export const leadSchema = z.object({
   kind: z.enum(LEAD_KINDS),
   /** Path of the page the form was submitted from. */
   source: text(200).min(1),
-  name: text(120).min(2, "Enter your name."),
+  name: text(120).min(2, "Enter your full name, at least 2 characters."),
   email: z.email("Enter a valid email address.").max(200),
   phone: text(40)
     .regex(/^[0-9+().\-\s]*$/, "Use digits only.")
@@ -70,6 +70,14 @@ export const CONSENT_WORDING = {
   marketing: "Send me occasional articles and market notes by email. I can unsubscribe at any time.",
 } as const;
 
+const EXTRA_MESSAGES: Record<string, string> = {
+  propertyAddress: "Enter the property's street address.",
+  preferredDate: "Choose a date for the showing.",
+  intent: "Choose whether you are buying, selling or both.",
+  investorType: "Choose how you invest.",
+  interests: "Pick at least one kind of investment.",
+};
+
 export function validateExtras(input: LeadInput): Record<string, string> {
   const errors: Record<string, string> = {};
   for (const key of REQUIRED_EXTRAS[input.kind]) {
@@ -79,7 +87,7 @@ export function validateExtras(input: LeadInput): Record<string, string> {
     }
     const v = input.extras[key];
     if (v == null || (typeof v === "string" && v.trim() === "") || (Array.isArray(v) && v.length === 0)) {
-      errors[key] = "This field is required.";
+      errors[key] = EXTRA_MESSAGES[key] ?? "This field is required.";
     }
   }
   return errors;

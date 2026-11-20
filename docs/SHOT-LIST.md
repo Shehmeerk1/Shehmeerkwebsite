@@ -5,7 +5,6 @@ Every "Photo to come" note on the site, with its brief. One morning and one even
 | Page | Frame | Brief |
 |---|---|---|
 | Home, hero | Shehmeer, golden hour | Waist-up, facing the light, desert behind. Warm, direct, no studio. 3:4 portrait. |
-| Home, introduction | Shehmeer at work | Candid, mid-conversation at a showing or over plans. Natural light, 35mm, not posed. 4:5. |
 | About, hero | Portrait of Shehmeer | The lead portrait. Head and shoulders, eyes to camera, warm natural light, a plain wall. 3:4. |
 | About, chapters | Shehmeer, early days | An older photograph from the first business, if one exists. 4:3. |
 | About, chapters | Shehmeer with a team | Working with people: a meeting, a launch, a whiteboard. 4:3. |

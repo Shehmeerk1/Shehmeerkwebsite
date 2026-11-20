@@ -53,12 +53,7 @@ export function ListingCard({ listing, aspect = "aspect-[4/5]", sizes = "(min-wi
           </h3>
           <p className="t-label text-muted">{listing.type}</p>
         </div>
-        <div className="mt-1 flex items-baseline justify-between gap-4">
-          <ListingFacts listing={listing} />
-          <p aria-hidden className="t-label text-muted">
-            {listing.title.replace("Sample residence", "Sample")}
-          </p>
-        </div>
+        <ListingFacts listing={listing} className="mt-1" />
       </Link>
       <FavoriteButton id={listing.id} title={`${listing.title} in ${listing.community}`} className="absolute right-3 top-3" />
     </article>
