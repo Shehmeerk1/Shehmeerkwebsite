@@ -16,7 +16,7 @@ export function hourForPath(path: string): Hour {
   if (path.startsWith("/invest")) return "night";
   if (path.startsWith("/marketing")) return "cobalt";
   if (path.startsWith("/about")) return "dawn";
-  if (path.startsWith("/resources")) return "bloom";
+  if (path.startsWith("/resources") || path.startsWith("/valuation")) return "bloom";
   if (path.startsWith("/contact")) return "ember";
   if (path.startsWith("/journal")) return "basalt";
   return "chalk";

@@ -61,7 +61,7 @@ export function Footer() {
                 </Link>
               </li>
             </ul>
-            {!contact.email && !contact.phone ? <DraftNote className="mt-4 text-muted">Email, phone and social links appear here once added to lib/site.ts.</DraftNote> : null}
+            {!contact.email && !contact.phone ? <DraftNote className="mt-4 text-muted">Email, phone and social links appear here once you add them.</DraftNote> : null}
           </div>
         </div>
 

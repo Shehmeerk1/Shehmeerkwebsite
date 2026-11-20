@@ -122,7 +122,7 @@ export function Doors() {
                 <Photo name="saguaroDusk" className="mb-6 hidden aspect-[4/3] rounded-[1rem] lg:block" sizes="30vw" />
                 <Button asChild variant="accent" size="lg">
                   <Link href="/marketing">
-                    See the marketing work <ArrowRight aria-hidden />
+                    See what I do <ArrowRight aria-hidden />
                   </Link>
                 </Button>
               </div>

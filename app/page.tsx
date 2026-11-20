@@ -4,7 +4,6 @@ import { Doors } from "@/components/home/doors";
 import { HeroCinema } from "@/components/home/hero-cinema";
 import { HomeRail } from "@/components/home/home-rail";
 import { IdentityScroll } from "@/components/home/identity-scroll";
-import { ScrollWords } from "@/components/home/scroll-words";
 import { PostCard } from "@/components/journal/post-card";
 import { DemoBanner } from "@/components/listings/demo-banner";
 import { NeighborhoodIndex } from "@/components/map/neighborhood-index";
@@ -16,11 +15,6 @@ import { getPosts } from "@/lib/journal";
 import { getListingsProvider } from "@/lib/listings";
 import { resources } from "@/lib/resources";
 
-const disciplines = [
-  { name: "Positioning", line: "Who it is for, and why them." },
-  { name: "Launch", line: "A plan, a story, a date." },
-  { name: "Measurement", line: "What moved, and what to do next." },
-];
 
 export default async function HomePage() {
   const provider = getListingsProvider();
@@ -60,38 +54,12 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Marketing */}
-      <section data-theme="cobalt" aria-labelledby="growth-title" className="overflow-hidden py-[clamp(4.5rem,9vw,8rem)]">
-        <ScrollWords top="Attention, earned." bottom="Every home is a launch." />
-        <div className="wrap grid-12 mt-[clamp(3rem,6vw,5rem)] gap-y-10">
-          <div className="col-span-12 lg:col-span-5">
-            <h2 id="growth-title" className="t-l">
-              The marketer in the room
-            </h2>
-            <p className="t-body mt-5 max-w-md text-muted">Before a house sells, the right people have to notice it. I build that attention the way I built it for businesses: with a clear audience, an honest story and numbers that tell me what to do next.</p>
-            <Button asChild variant="accent" size="lg" className="mt-8">
-              <Link href="/marketing">
-                See the marketing work <ArrowRight aria-hidden />
-              </Link>
-            </Button>
-          </div>
-          <ul className="col-span-12 self-end lg:col-span-6 lg:col-start-7">
-            {disciplines.map((d) => (
-              <li key={d.name} className="group flex items-baseline justify-between gap-6 border-b border-line py-5 first:border-t">
-                <span className="t-m">{d.name}</span>
-                <span className="t-body text-muted">{d.line}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
-
       {/* Journal */}
       <section data-theme="basalt" aria-labelledby="journal-title" className="py-[clamp(4.5rem,9vw,8rem)]">
         <div className="wrap">
           <div className="flex flex-wrap items-end justify-between gap-6">
             <h2 id="journal-title" className="t-xl">
-              Field notes
+              From the journal
             </h2>
             <Link href="/journal" className="t-label inline-flex min-h-11 items-center gap-2">
               <span className="link-draw">Read the journal</span>

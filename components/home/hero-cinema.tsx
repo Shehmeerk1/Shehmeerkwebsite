@@ -72,24 +72,23 @@ export function HeroCinema() {
             <p className="t-m">I help people buy, sell and invest in Arizona real estate, and I market every home like a launch.</p>
             <div className="mt-7 hidden flex-wrap gap-3 md:flex">
               <Button asChild variant="accent" size="lg">
-                <Link href="/homes">
-                  Explore homes <ArrowRight aria-hidden />
+                <Link href="/valuation">
+                  What is my home worth? <ArrowRight aria-hidden />
                 </Link>
+              </Button>
+              <Button asChild variant="outline" size="lg" className="backdrop-blur-sm">
+                <Link href="/homes">Explore homes</Link>
               </Button>
               <Button asChild variant="outline" size="lg" className="backdrop-blur-sm">
                 <Link href="/invest">Invest with me</Link>
               </Button>
             </div>
-            <Link href="/real-estate#valuation" className="t-label mt-5 hidden min-h-11 items-center gap-2 text-fg md:inline-flex">
-              <span className="link-draw">Selling? Find out what your home is worth</span>
-              <ArrowRight className="size-4" aria-hidden />
-            </Link>
           </div>
-          <p className="fade-late t-label t-num hidden min-w-[13rem] text-right text-fg/85 sm:block" style={{ "--i": 7 } as React.CSSProperties} aria-live="off">
+          <p className="fade-late t-label t-num hidden min-w-[13rem] text-right text-fg [text-shadow:0_1px_12px_rgba(0,0,0,0.6)] sm:block" style={{ "--i": 7 } as React.CSSProperties} aria-live="off">
             {readout ? (
               <>
                 <span className="block text-fg">{readout.time} in Phoenix</span>
-                <span className="block text-fg/70">{readout.light}</span>
+                <span className="block text-fg/90">{readout.light}</span>
               </>
             ) : (
               <span className="block">Phoenix, Arizona</span>
@@ -115,16 +114,18 @@ export function HeroCinema() {
 
         <div className="mt-6 flex flex-col gap-3 sm:flex-row md:hidden">
           <Button asChild variant="accent" size="lg">
-            <Link href="/homes">
-              Explore homes <ArrowRight aria-hidden />
+            <Link href="/valuation">
+              What is my home worth? <ArrowRight aria-hidden />
             </Link>
           </Button>
-          <Button asChild variant="outline" size="lg">
-            <Link href="/invest">Invest with me</Link>
-          </Button>
-          <Link href="/real-estate#valuation" className="t-label inline-flex min-h-11 items-center justify-center gap-2">
-            <span className="link-draw">Selling? Get a home valuation</span>
-          </Link>
+          <div className="grid grid-cols-2 gap-3">
+            <Button asChild variant="outline" size="lg" className="px-4">
+              <Link href="/homes">Explore homes</Link>
+            </Button>
+            <Button asChild variant="outline" size="lg" className="px-4">
+              <Link href="/invest">Invest with me</Link>
+            </Button>
+          </div>
         </div>
       </div>
     </section>

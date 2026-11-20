@@ -17,7 +17,7 @@ export function Wordmark({ className, onClick }: { className?: string; onClick?:
   return (
     <Link href="/" onClick={onClick} aria-label="Shehmeer Kanwar, home" className={cn("group inline-flex min-h-11 items-center gap-2.5", className)}>
       <Monogram className="transition-transform duration-700 ease-[var(--ease-out-expo)] group-hover:rotate-[-12deg]" />
-      <span className="text-[0.9375rem] font-semibold tracking-[-0.01em] [font-variation-settings:'wdth'_90]">Shehmeer Kanwar</span>
+      <span className="hidden text-[0.9375rem] font-semibold tracking-[-0.01em] [font-variation-settings:'wdth'_90] min-[400px]:inline">Shehmeer Kanwar</span>
     </Link>
   );
 }

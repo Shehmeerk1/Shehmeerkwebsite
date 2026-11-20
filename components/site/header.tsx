@@ -17,7 +17,7 @@ export function Header() {
   return (
     <header data-theme="basalt" className="!bg-transparent pointer-events-none fixed inset-x-0 top-0 z-50 [&_:focus-visible]:!outline-white [&_:focus-visible]:outline-offset-2">
       <div className="wrap flex items-center justify-between gap-3 pt-3 sm:pt-4">
-        <div className={cn(pill, "pointer-events-auto py-1 pl-1.5 pr-4 [&_svg>rect]:fill-[#f3f0ea]")}>
+        <div className={cn(pill, "pointer-events-auto py-1 pl-1.5 pr-1.5 min-[400px]:pr-4 [&_svg>rect]:fill-[#f3f0ea]")}>
           <Wordmark />
         </div>
         <div className={cn(pill, "pointer-events-auto flex items-center gap-1 py-1 pl-2 pr-1.5")}>
@@ -39,8 +39,9 @@ export function Header() {
               })}
             </ul>
           </nav>
-          <Link href="/real-estate#valuation" className="t-label hidden min-h-11 items-center rounded-full bg-[#ff6b3d] px-4 text-[#0f0e0c] transition-colors duration-300 hover:bg-[#f3f0ea] sm:inline-flex">
-            Home valuation
+          <Link href="/valuation" className="t-label inline-flex min-h-11 items-center rounded-full bg-[#ff6b3d] px-4 text-[#0f0e0c] transition-colors duration-300 hover:bg-[#f3f0ea]">
+            <span className="sm:hidden">Valuation</span>
+            <span className="hidden sm:inline">Home valuation</span>
           </Link>
           <Menu />
         </div>

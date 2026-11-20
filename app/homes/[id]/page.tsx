@@ -7,6 +7,7 @@ import { FavoriteButton } from "@/components/listings/favorite-button";
 import { Gallery } from "@/components/listings/gallery";
 import { InquiryPanel } from "@/components/listings/inquiry-panel";
 import { ListingCard } from "@/components/listings/listing-card";
+import { ShowingBar } from "@/components/listings/showing-bar";
 import { getListingsProvider } from "@/lib/listings";
 import { formatNumber, formatPrice } from "@/lib/utils";
 
@@ -103,13 +104,7 @@ export default async function ListingPage({ params }: Props) {
         </div>
       </section>
 
-      {/* Phones: the request is always one tap away. */}
-      <div data-theme="basalt" className="!bg-transparent pointer-events-none fixed inset-x-0 bottom-0 z-40 p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] md:hidden">
-        <a href="#inquire" className="t-label pointer-events-auto flex min-h-14 items-center justify-between rounded-full bg-[#0f0e0c]/90 pl-5 pr-2 text-[#f3f0ea] shadow-[0_12px_30px_-12px_rgba(0,0,0,0.6)] backdrop-blur-md">
-          <span className="t-num">{formatPrice(listing.price)}</span>
-          <span className="rounded-full bg-accent px-5 py-3 text-accent-fg">Request a showing</span>
-        </a>
-      </div>
+      <ShowingBar price={formatPrice(listing.price)} />
 
       <section data-theme="dawn" aria-labelledby="related-title" className="pb-[clamp(6rem,8vw,7rem)] pt-[clamp(4rem,8vw,7rem)]">
         <div className="wrap">

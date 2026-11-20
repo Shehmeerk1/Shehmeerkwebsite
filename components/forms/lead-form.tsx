@@ -35,11 +35,11 @@ const FIELDS: Record<LeadKind, Field[]> = {
     { name: "message", label: "Anything else worth knowing", type: "textarea" },
   ],
   valuation: [
-    ...who,
-    phone,
-    { name: "propertyAddress", label: "Property address", type: "text", required: true, autoComplete: "street-address", half: true },
+    { name: "propertyAddress", label: "Property address", type: "text", required: true, autoComplete: "street-address" },
     { name: "propertyType", label: "Property type", type: "select", options: ["Single family", "Townhome", "Condominium", "Multifamily", "Land"], half: true },
     timeline,
+    ...who,
+    phone,
     { name: "message", label: "Recent updates, or questions you have", type: "textarea" },
   ],
   "property-inquiry": [...who, phone, { name: "message", label: "Your question", type: "textarea" }],
@@ -158,13 +158,14 @@ export function LeadForm({ kind, hidden, className, idPrefix }: { kind: LeadKind
     const parsed = leadSchema.safeParse(payload);
     const found: Record<string, string> = {};
     if (!parsed.success) for (const issue of parsed.error.issues) found[String(issue.path[0])] ??= issue.message;
-    else Object.assign(found, validateExtras(parsed.data));
+    for (const [k, v] of Object.entries(validateExtras(payload as Parameters<typeof validateExtras>[0]))) found[k] ??= v;
     for (const f of fields) if (f.required && CORE.has(f.name) && !String(data.get(f.name) ?? "").trim()) found[f.name] ??= "This field is required.";
     const date = String(data.get("preferredDate") ?? "");
     if (date && today && date < today) found.preferredDate ??= "Choose today or a later date.";
 
     setErrors(found);
-    const firstBad = Object.keys(found)[0];
+    const order = [...fields.map((f) => f.name), "consentContact"];
+    const firstBad = order.find((n) => found[n]) ?? Object.keys(found)[0];
     if (firstBad) {
       formRef.current?.querySelector<HTMLElement>(`[name="${firstBad}"], [data-field="${firstBad}"]`)?.focus();
       return;
@@ -220,14 +221,14 @@ export function LeadForm({ kind, hidden, className, idPrefix }: { kind: LeadKind
 
   return (
     <form ref={formRef} onSubmit={onSubmit} noValidate className={cn("grid grid-cols-1 gap-x-8 gap-y-7 sm:grid-cols-2", className)}>
-      <p className="text-[0.875rem] text-muted sm:col-span-2" aria-hidden>
+      <p className="text-[0.875rem] text-muted sm:col-span-full" aria-hidden>
         Fields marked <span className="text-fg">*</span> are required.
       </p>
       {fields.map((f) => {
         const id = `${pid}-${f.name}`;
         const half = "half" in f && f.half;
         return (
-          <div key={f.name} className={cn(!half && "sm:col-span-2")}>
+          <div key={f.name} className={cn(!half && "sm:col-span-full")}>
             {f.type === "checks" ? (
               <fieldset>
                 <legend className="t-label text-muted">
@@ -291,7 +292,7 @@ export function LeadForm({ kind, hidden, className, idPrefix }: { kind: LeadKind
         </label>
       </div>
 
-      <div className="space-y-3 sm:col-span-2">
+      <div className="space-y-3 sm:col-span-full">
         <div className="flex items-start gap-3">
           <Checkbox id={`${pid}-consentContact`} name="consentContact" data-field="consentContact" required {...aria("consentContact")} />
           <label htmlFor={`${pid}-consentContact`} className="cursor-pointer text-[0.9375rem] leading-snug text-muted">
@@ -311,7 +312,7 @@ export function LeadForm({ kind, hidden, className, idPrefix }: { kind: LeadKind
         </div>
       </div>
 
-      <div className="flex flex-wrap items-center gap-x-6 gap-y-3 sm:col-span-2">
+      <div className="flex flex-wrap items-center gap-x-6 gap-y-3 sm:col-span-full">
         <Button type="submit" size="lg" disabled={status.state === "sending"}>
           {status.state === "sending" ? "Sending…" : SUBMIT[kind]} <ArrowRight aria-hidden />
         </Button>

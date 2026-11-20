@@ -110,7 +110,7 @@ export default async function HomesPage({ searchParams }: { searchParams: Promis
         lede="Tell me what you need and I will search for you, including homes that never reach the portals."
         primary={{ href: "/contact?topic=buy-sell", label: "Describe what you need" }}
         routes={[
-          { href: "/real-estate#valuation", label: "Selling first? Get a valuation" },
+          { href: "/valuation", label: "Selling first? Get a valuation" },
           { href: "/resources#arizona-homebuyer-guide", label: "The Arizona homebuyer guide" },
           { href: "/real-estate#communities", label: "Featured communities" },
         ]}

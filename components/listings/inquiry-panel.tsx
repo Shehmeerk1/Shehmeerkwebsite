@@ -30,7 +30,7 @@ export function InquiryPanel({ listingId, listingTitle }: { listingId: string; l
         ))}
       </div>
       <div id="inquiry-panel" role="tabpanel" aria-labelledby={`tab-${kind}`} className="pt-7">
-        <LeadForm key={kind} kind={kind} hidden={{ listingId, listingTitle }} idPrefix={kind} className="sm:grid-cols-1 [&>div]:sm:col-span-1" />
+        <LeadForm key={kind} kind={kind} hidden={{ listingId, listingTitle }} idPrefix={kind} className="sm:grid-cols-1" />
       </div>
     </div>
   );
