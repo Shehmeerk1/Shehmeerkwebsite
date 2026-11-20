@@ -1,0 +1,434 @@
+@import "tailwindcss";
+
+@source not "../.claude";
+@source not "../design-references";
+
+/*
+  The Valley by the hour. Each page keeps the light of one hour of an Arizona
+  day as its ground. Sections switch hours with data-theme. See DESIGN.md.
+*/
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-accent-fg: var(--accent-fg);
+  --color-surface: var(--surface);
+  --color-error: var(--error);
+}
+
+@theme {
+  --color-basalt: #0f0e0c;
+  --color-chalk: #f3f1ec;
+  --color-cobalt: #2537ee;
+  --color-bloom: #f2d33b;
+  --color-ember: #ff6b3d;
+  --color-night: #0a0e1a;
+  --color-dawn: #f0d6c8;
+  --color-brass: #d9b26a;
+
+  --font-sans: var(--font-archivo), "Helvetica Neue", Arial, sans-serif;
+  --font-serif: var(--font-newsreader), Georgia, serif;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-in-out-cine: cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+/* ---- The hours ---------------------------------------------------------- */
+:root,
+[data-theme="chalk"] {
+  --bg: #f3f1ec;
+  --fg: #12100e;
+  --muted: #5f5850;
+  --line: rgb(18 16 14 / 0.14);
+  --accent: #2537ee;
+  --accent-fg: #ffffff;
+  --surface: #e7e3dc;
+  --error: #b42318;
+}
+[data-theme="basalt"] {
+  --bg: #0f0e0c;
+  --fg: #f3f0ea;
+  --muted: #a39c92;
+  --line: rgb(243 240 234 / 0.15);
+  --accent: #ff6b3d;
+  --accent-fg: #0f0e0c;
+  --surface: #1b1916;
+  --error: #ff9a80;
+}
+[data-theme="cobalt"] {
+  --bg: #2537ee;
+  --fg: #f6f4ef;
+  --muted: rgb(246 244 239 / 0.8);
+  --line: rgb(246 244 239 / 0.3);
+  --accent: #f2d33b;
+  --accent-fg: #12100e;
+  --surface: #1d2dd0;
+  --error: #ffe1d8;
+}
+[data-theme="bloom"] {
+  --bg: #f2d33b;
+  --fg: #12100e;
+  --muted: #463d18;
+  --line: rgb(18 16 14 / 0.2);
+  --accent: #2537ee;
+  --accent-fg: #ffffff;
+  --surface: #e8c629;
+  --error: #8f1d0e;
+}
+[data-theme="night"] {
+  --bg: #0a0e1a;
+  --fg: #ebe7de;
+  --muted: #959bad;
+  --line: rgb(235 231 222 / 0.14);
+  --accent: #d9b26a;
+  --accent-fg: #0a0e1a;
+  --surface: #121a2e;
+  --error: #ff9c85;
+}
+[data-theme="dawn"] {
+  --bg: #f0d6c8;
+  --fg: #1a1210;
+  --muted: #684f46;
+  --line: rgb(26 18 16 / 0.16);
+  --accent: #a8321c;
+  --accent-fg: #ffffff;
+  --surface: #e6c3b2;
+  --error: #8f1d0e;
+}
+[data-theme="ember"] {
+  --bg: #ff6b3d;
+  --fg: #12100e;
+  --muted: #3d1a0e;
+  --line: rgb(18 16 14 / 0.22);
+  --accent: #12100e;
+  --accent-fg: #ff6b3d;
+  --surface: #f25a2b;
+  --error: #3d0a00;
+}
+[data-theme] {
+  background-color: var(--bg);
+  color: var(--fg);
+}
+
+@layer base {
+  html {
+    background: var(--color-basalt);
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    scroll-padding-top: 6rem;
+  }
+  body {
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.55;
+    min-height: 100dvh;
+    background: var(--bg);
+    color: var(--fg);
+  }
+  ::selection {
+    background: var(--accent);
+    color: var(--accent-fg);
+  }
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 3px;
+  }
+  [data-theme="ember"] :focus-visible,
+  [data-theme="bloom"] :focus-visible {
+    outline-color: var(--fg);
+  }
+  h1, h2, h3, h4 {
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+  button {
+    cursor: pointer;
+  }
+  img, svg {
+    display: block;
+    max-width: 100%;
+  }
+  a, button, summary, label, select, input {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+  input, textarea, select {
+    caret-color: var(--accent);
+  }
+  * {
+    scrollbar-color: color-mix(in srgb, var(--fg) 35%, transparent) transparent;
+  }
+}
+
+@layer components {
+  .wrap {
+    width: 100%;
+    max-width: 1720px;
+    margin-inline: auto;
+    padding-inline: max(clamp(1.25rem, 3.4vw, 3.5rem), env(safe-area-inset-left), env(safe-area-inset-right));
+  }
+  .grid-12 {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: clamp(0.75rem, 1.6vw, 1.75rem);
+  }
+
+  /* Title cards: condensed Archivo, set like a film's opening credits. */
+  .t-card {
+    font-family: var(--font-sans);
+    font-variation-settings: "wdth" 62;
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: clamp(4.25rem, 16.5vw, 19rem);
+    line-height: 0.8;
+    letter-spacing: -0.012em;
+  }
+  .t-xl {
+    font-family: var(--font-sans);
+    font-variation-settings: "wdth" 64;
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: clamp(3rem, 8.6vw, 9.5rem);
+    line-height: 0.84;
+    letter-spacing: -0.01em;
+  }
+  .t-l {
+    font-family: var(--font-sans);
+    font-variation-settings: "wdth" 68;
+    font-weight: 750;
+    text-transform: uppercase;
+    font-size: clamp(2.25rem, 4.8vw, 5.25rem);
+    line-height: 0.9;
+    letter-spacing: -0.005em;
+  }
+  .t-m {
+    font-family: var(--font-sans);
+    font-variation-settings: "wdth" 88;
+    font-weight: 600;
+    font-size: clamp(1.45rem, 2.2vw, 2.15rem);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+  .t-s {
+    font-family: var(--font-sans);
+    font-variation-settings: "wdth" 92;
+    font-weight: 600;
+    font-size: clamp(1.125rem, 1.35vw, 1.3rem);
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+  }
+  /* Shehmeer's own voice: the only serif on the page outside articles. */
+  .t-voice {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 350;
+    font-size: clamp(1.45rem, 2.5vw, 2.6rem);
+    line-height: 1.18;
+    letter-spacing: -0.015em;
+  }
+  .t-body {
+    font-size: clamp(1rem, 1.05vw, 1.125rem);
+    line-height: 1.6;
+  }
+  .t-label {
+    font-variation-settings: "wdth" 112;
+    font-size: 0.8125rem;
+    font-weight: 550;
+    line-height: 1.3;
+    letter-spacing: 0.01em;
+  }
+  .t-num {
+    font-variant-numeric: tabular-nums lining-nums;
+  }
+
+  .link-draw {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    background-size: 0% 1px;
+    transition: background-size 0.5s var(--ease-out-expo);
+    padding-bottom: 2px;
+  }
+  .link-draw:hover,
+  .link-draw:focus-visible,
+  a:hover .link-draw,
+  a:focus-visible .link-draw,
+  button:hover .link-draw {
+    background-size: 100% 1px;
+  }
+  .link-rule {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.22em;
+    text-decoration-color: color-mix(in srgb, currentColor 45%, transparent);
+    transition: text-decoration-color 0.2s;
+  }
+  .link-rule:hover {
+    text-decoration-color: currentColor;
+  }
+
+  /* Film grain over photographs. Static, so it costs nothing to scroll. */
+  .grain::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.16;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 1.1 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  }
+
+  .prose-journal {
+    font-family: var(--font-serif);
+    font-size: clamp(1.15rem, 1.35vw, 1.35rem);
+    line-height: 1.62;
+    font-weight: 380;
+  }
+  .prose-journal > * + * {
+    margin-top: 1.35em;
+  }
+  .prose-journal h2 {
+    font-family: var(--font-sans);
+    font-variation-settings: "wdth" 70;
+    font-weight: 750;
+    text-transform: uppercase;
+    font-size: 1.9em;
+    line-height: 0.95;
+    margin-top: 2em;
+  }
+  .prose-journal h3 {
+    font-family: var(--font-sans);
+    font-weight: 650;
+    font-size: 1.15em;
+    margin-top: 1.8em;
+  }
+  .prose-journal a {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.2em;
+    text-decoration-color: var(--accent);
+  }
+  .prose-journal ul,
+  .prose-journal ol {
+    padding-left: 1.2em;
+  }
+  .prose-journal ul {
+    list-style: disc;
+  }
+  .prose-journal ol {
+    list-style: decimal;
+  }
+  .prose-journal li + li {
+    margin-top: 0.5em;
+  }
+  .prose-journal li::marker {
+    color: var(--accent);
+  }
+  .prose-journal strong {
+    font-weight: 600;
+  }
+}
+
+/* ---- Motion ------------------------------------------------------------- */
+@keyframes rise {
+  from { transform: translateY(105%); }
+  to { transform: translateY(0); }
+}
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes curtain {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-101%); }
+}
+@keyframes letterbox-top {
+  from { transform: scaleY(1); }
+  to { transform: scaleY(0.12); }
+}
+@keyframes settle {
+  from { transform: scale(1.14); filter: brightness(0.55); }
+  to { transform: scale(1.02); filter: brightness(1); }
+}
+@keyframes draw {
+  to { stroke-dashoffset: 0; }
+}
+@keyframes pulse-ring {
+  0% { transform: scale(0.6); opacity: 0.9; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+
+/* Page transitions: each route opens with a wipe in its own hour. */
+.curtain {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  pointer-events: none;
+  transform-origin: top;
+  animation: curtain 0.9s var(--ease-in-out-cine) 0.08s both;
+}
+
+.line-mask {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.06em;
+  margin-bottom: -0.06em;
+}
+.line-mask > span {
+  display: block;
+  animation: rise 1.15s var(--ease-out-expo) both;
+  animation-delay: calc(var(--i, 0) * 90ms + 420ms);
+}
+.fade-late {
+  animation: fade-in 0.9s ease-out both;
+  animation-delay: calc(var(--i, 0) * 90ms + 800ms);
+}
+
+.photo-zoom img {
+  transition: transform 1.2s var(--ease-out-expo), opacity 0.6s;
+}
+a:hover .photo-zoom img,
+a:focus-visible .photo-zoom img,
+.group:hover .photo-zoom img {
+  transform: scale(1.045);
+}
+
+.draw-on-hover .ink {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+}
+@media (hover: hover) {
+  a:hover .draw-on-hover .ink,
+  a:focus-visible .draw-on-hover .ink,
+  .group:hover .draw-on-hover .ink {
+    stroke-dashoffset: 1;
+    animation: draw 1.4s var(--ease-out-quart) forwards;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .curtain {
+    display: none;
+  }
+}
